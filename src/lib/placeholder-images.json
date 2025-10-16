@@ -2,9 +2,9 @@
   "placeholderImages": [
     {
       "id": "login-background",
-      "description": "Abstract background reminiscent of SharePoint's design",
-      "imageUrl": "https://picsum.photos/seed/sharepoint/1920/1080",
-      "imageHint": "abstract corporate"
+      "description": "Abstract background with a grid pattern, similar to a spreadsheet",
+      "imageUrl": "https://picsum.photos/seed/excel/1920/1080",
+      "imageHint": "grid spreadsheet"
     }
   ]
 }
