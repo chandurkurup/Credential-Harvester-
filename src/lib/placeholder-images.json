@@ -3,8 +3,8 @@
     {
       "id": "login-background",
       "description": "Abstract background reminiscent of SharePoint's design",
-      "imageUrl": "https://picsum.photos/seed/blended-abstract/1920/1080",
-      "imageHint": "abstract modern"
+      "imageUrl": "https://picsum.photos/seed/sharepoint/1920/1080",
+      "imageHint": "abstract corporate"
     }
   ]
 }
