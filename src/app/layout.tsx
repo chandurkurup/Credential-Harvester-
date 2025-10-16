@@ -1,10 +1,10 @@
-import type {Metadata} from 'next';
+import type { Metadata } from 'next';
 import './globals.css';
-import { Toaster } from "@/components/ui/toaster"
+import { Toaster } from '@/components/ui/toaster';
 
 export const metadata: Metadata = {
-  title: 'Phishing Simulation - Excel Login',
-  description: 'Simulated Phishing Example',
+  title: 'Blur Image — Training',
+  description: 'An interactive image blurring tool for training purposes.',
 };
 
 export default function RootLayout({
