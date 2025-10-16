@@ -3,7 +3,7 @@ import './globals.css';
 import { Toaster } from "@/components/ui/toaster"
 
 export const metadata: Metadata = {
-  title: 'Phishing Awareness Training',
+  title: 'Phishing Simulation - Excel Login',
   description: 'Simulated Phishing Example',
 };
 
