@@ -2,9 +2,9 @@
   "placeholderImages": [
     {
       "id": "login-background",
-      "description": "A blurred image of an Excel spreadsheet.",
-      "imageUrl": "https://picsum.photos/seed/spreadsheet-blur/1920/1080",
-      "imageHint": "spreadsheet blur"
+      "description": "An image of an Excel spreadsheet.",
+      "imageUrl": "https://placehold.co/1920x1080/FFFFFF/000000.png?text=Excel",
+      "imageHint": "spreadsheet grid"
     }
   ]
 }
