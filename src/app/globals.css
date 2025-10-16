@@ -6,12 +6,6 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
-@layer utilities {
-  .bg-spreadsheet {
-    background-image: url('https://images.unsplash.com/photo-1611095965942-88059e69f8a3?q=80&w=1920&h=1080&fit=crop&auto=format');
-  }
-}
-
 @layer base {
   :root {
     --background: 0 0% 98%;
