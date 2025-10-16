@@ -3,7 +3,7 @@
     {
       "id": "login-background",
       "description": "A blurred image of an Excel spreadsheet.",
-      "imageUrl": "https://picsum.photos/seed/excel-blur/1920/1080",
+      "imageUrl": "https://picsum.photos/seed/spreadsheet-blur/1920/1080",
       "imageHint": "spreadsheet blur"
     }
   ]
