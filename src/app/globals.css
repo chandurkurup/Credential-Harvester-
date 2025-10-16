@@ -1,78 +1,14 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-:root {
-  --bg: #111;
-  --card: rgba(255,255,255,0.06);
-  --accent: #0078d4;
+body, html {
+  margin: 0; 
+  height: 100%;
+  background: #111;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
-html,body { height:100%; margin:0; background:var(--bg); font-family:Segoe UI, Roboto, Arial, sans-serif; color:#eee; }
-.wrap {
-  max-width:1100px;
-  margin:24px auto;
-  padding:18px;
-  box-sizing:border-box;
-}
-
-.viewer {
-  position:relative;
-  background:#000;
-  border-radius:8px;
-  overflow:hidden;
-  box-shadow: 0 10px 40px rgba(0,0,0,0.6);
-  display:flex;
-  gap:12px;
-  align-items:center;
-}
-
-/* image pane */
-.imgpane {
-  flex:1 1 0;
-  min-width: 320px;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  background:#222;
-}
-
-.imgpane img {
-  display:block;
-  width:100%;
-  height:auto;
-  max-height:75vh;
-  object-fit:contain;
-  transition: filter .15s linear, transform .15s ease;
-}
-
-/* controls */
-.controls {
-  width:340px;
-  padding:18px;
-  box-sizing:border-box;
-  background:var(--card);
-  border-left: 1px solid rgba(255,255,255,0.03);
-}
-
-.controls h2 { margin:0 0 10px; font-size:18px; color:#fff; }
-label { display:block; font-size:13px; margin:12px 0 6px; color:#ddd; }
-
-input[type=range] {
-  width:100%;
-}
-
-.row { display:flex; gap:8px; align-items:center; margin-top:12px; }
-.btn {
-  display:inline-block; padding:10px 12px; border-radius:6px; background:var(--accent); color:#fff; text-decoration:none; border:none; cursor:pointer; font-weight:700;
-}
-.btn.secondary { background:#444; }
-.small { font-size:13px; color:#cfcfcf; margin-top:10px; }
-
-.badge { position:fixed; top:12px; left:12px; background:#ffe600; color:#111; padding:6px 10px; border-radius:6px; font-weight:700; z-index:60; }
-
-/* responsive */
-@media (max-width:900px) {
-  .viewer { flex-direction:column; }
-  .controls { width:100%; border-left:none; border-top:1px solid rgba(255,255,255,0.03); }
-  .imgpane img { max-height:55vh; }
+img {
+  max-width: 90vw;
+  max-height: 90vh;
+  filter: blur(3px);
+  border-radius: 8px;
 }

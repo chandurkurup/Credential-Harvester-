@@ -1,10 +1,8 @@
 import type { Metadata } from 'next';
 import './globals.css';
-import { Toaster } from '@/components/ui/toaster';
 
 export const metadata: Metadata = {
-  title: 'Blur Image — Training',
-  description: 'An interactive image blurring tool for training purposes.',
+  title: 'Blurred Image',
 };
 
 export default function RootLayout({
@@ -13,12 +11,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <head />
-      <body>
-        {children}
-        <Toaster />
-      </body>
+    <html lang="en">
+      <body>{children}</body>
     </html>
   );
 }
