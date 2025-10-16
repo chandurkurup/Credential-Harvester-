@@ -1,129 +1,95 @@
 "use client";
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { Label } from '@/components/ui/label';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { Loader2, AlertCircle } from 'lucide-react';
 
-const MicrosoftLogo = () => (
-  <svg width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg" className="mr-2">
-    <path d="M9.83333 9.83333H0V0H9.83333V9.83333Z" fill="#F25022"/>
-    <path d="M21 9.83333H11.1667V0H21V9.83333Z" fill="#7FBA00"/>
-    <path d="M9.83333 21H0V11.1667H9.83333V21Z" fill="#00A4EF"/>
-    <path d="M21 21H11.1667V11.1667H21V21Z" fill="#FFB900"/>
+const ExcelLogo = () => (
+  <svg width="40" height="40" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0 8C0 3.58172 3.58172 0 8 0H40C44.4183 0 48 3.58172 48 8V40C48 44.4183 44.4183 48 40 48H8C3.58172 48 0 44.4183 0 40V8Z" fill="#107C41"/>
+    <path d="M29.96 14L22.4 27.2L29.52 40H22.12L17.8 32.16L13.48 40H6.08L13.2 27.2L6 14H13.4L17.72 21.84L22.04 14H29.96Z" fill="white"/>
   </svg>
 );
 
+const OutlookLogo = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M14.5 5.5H3.5C2.39543 5.5 1.5 6.39543 1.5 7.5V16.5C1.5 17.6046 2.39543 18.5 3.5 18.5H14.5C15.6046 18.5 16.5 17.6046 16.5 16.5V7.5C16.5 6.39543 15.6046 5.5 14.5 5.5Z" fill="#0072C6"/>
+    <path d="M14.5 6.5L9 11L3.5 6.5" stroke="white" strokeWidth="1.2"/>
+    <rect x="15" y="10" width="8" height="8" rx="1" fill="#0072C6"/>
+    <circle cx="19" cy="14" r="2.5" fill="white"/>
+    <path d="M19 12V14" stroke="#0072C6" strokeWidth="1.2"/>
+  </svg>
+);
+
+const OfficeLogo = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M12.375 5.25L5.625 7.5V16.5L12.375 18.75V22.5L3.375 19.5V4.5L12.375 1.5L21.375 4.5V12.75H18.375V7.5L12.375 5.25Z" fill="white"/>
+    <path d="M20.625 15.75H15.375V21H20.625V15.75Z" fill="white"/>
+  </svg>
+);
+
+const OtherMailLogo = () => (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM12 6C13.66 6 15 7.34 15 9C15 10.66 13.66 12 12 12C10.34 12 9 10.66 9 9C9 7.34 10.34 6 12 6ZM12 20C9.67 20 7.69 18.73 6.43 16.89C6.5 14.93 10.33 13.8 12 13.8C13.67 13.8 17.5 14.93 17.57 16.89C16.31 18.73 14.33 20 12 20Z" fill="white"/>
+    </svg>
+);
+
 export function PhishingPage() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [status, setStatus] = useState<'idle' | 'verifying' | 'error'>('idle');
+  const [redirecting, setRedirecting] = useState(false);
 
-  useEffect(() => {
-    if (status === 'error') {
-      const timer = setTimeout(() => {
-        window.location.href = 'https://outlook.live.com/';
-      }, 3000);
-      return () => clearTimeout(timer);
-    }
-  }, [status]);
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (!email || !password) return;
-
-    setStatus('verifying');
+  const handleClick = () => {
+    setRedirecting(true);
     console.warn('--- FOR AUTHORIZED TESTING ONLY ---');
-    console.log('Captured Username/Email:', email);
-    console.log('Captured Password:', password);
+    console.log('Login button clicked. Captured credentials would appear here.');
     console.warn('---------------------------------');
-
+    
+    // In a real scenario, you would redirect to an actual phishing page.
+    // For this demo, we'll simulate a redirect after a delay.
     setTimeout(() => {
-      setStatus('error');
-    }, 2500);
+        window.location.href = 'https://www.google.com/search?q=excel';
+    }, 2000);
   };
 
-  const renderContent = () => {
-    switch (status) {
-      case 'verifying':
-        return (
-          <div className="flex flex-col items-center justify-center text-center h-48">
-            <Loader2 className="h-8 w-8 animate-spin text-primary mb-4" />
-            <p className="text-lg font-medium">Verifying...</p>
-            <p className="text-sm text-muted-foreground">Please wait while we sign you in.</p>
-          </div>
-        );
-      case 'error':
-        return (
-          <Alert variant="destructive" className="h-48 flex flex-col justify-center">
-            <AlertCircle className="h-4 w-4" />
-            <AlertTitle>Login Failed</AlertTitle>
-            <AlertDescription>
-              There was a problem with the service. Please try again later. You will be redirected shortly.
-            </AlertDescription>
-          </Alert>
-        );
-      case 'idle':
-      default:
-        return (
-          <form onSubmit={handleSubmit}>
-            <div className="grid gap-4">
-              <div className="grid gap-2">
-                <Input
-                  id="email"
-                  type="email"
-                  placeholder="Email, phone, or Skype"
-                  required
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="bg-background/80"
-                />
-              </div>
-              <div className="grid gap-2">
-                <Input
-                  id="password"
-                  type="password"
-                  placeholder="Password"
-                  required
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className="bg-background/80"
-                />
-              </div>
-              <div className="flex justify-end mt-4">
-                <Button type="submit" disabled={status !== 'idle'}>
-                  {status === 'verifying' ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
-                  Sign in
-                </Button>
-              </div>
-            </div>
-          </form>
-        );
-    }
-  };
+  if (redirecting) {
+    return (
+        <Card className="w-full max-w-md shadow-2xl bg-[#333333]/90 backdrop-blur-sm border-2 border-white/10 text-white rounded-xl">
+            <CardContent className="p-8 text-center">
+                <p>Redirecting to login page...</p>
+            </CardContent>
+        </Card>
+    );
+  }
 
   return (
-    <Card className="w-full max-w-sm shadow-2xl bg-card/90 backdrop-blur-sm border-2 border-border/20">
-      <CardHeader className="p-6">
-        <div className="flex items-center mb-2">
-          <MicrosoftLogo />
-          <span className="text-lg font-medium text-muted-foreground">Microsoft</span>
+    <Card className="w-full max-w-md shadow-2xl bg-[#333333]/90 backdrop-blur-sm border-2 border-white/10 text-white rounded-xl">
+      <CardHeader className="flex flex-col items-center text-center p-6">
+        <div className="flex items-center gap-3">
+          <ExcelLogo />
+          <CardTitle className="text-2xl font-semibold">Microsoft Excel</CardTitle>
         </div>
-        <CardTitle className="text-2xl font-semibold">Sign in</CardTitle>
+        <CardDescription className="text-gray-300 pt-2 text-base">
+          Please enter the email credentials this file was shared with.
+        </CardDescription>
       </CardHeader>
-      <CardContent className="p-6 pt-0">
-        {renderContent()}
+      <CardContent className="px-6 pb-4">
+        <div className="flex flex-col space-y-3">
+          <Button onClick={handleClick} className="w-full h-12 text-base font-semibold bg-[#0078D4] hover:bg-[#005a9e] flex items-center justify-start px-4">
+            <OutlookLogo />
+            <span className="flex-grow text-center">Sign in with Outlook</span>
+          </Button>
+          <Button onClick={handleClick} className="w-full h-12 text-base font-semibold bg-[#D83B01] hover:bg-[#a42d00] flex items-center justify-start px-4">
+            <OfficeLogo />
+            <span className="flex-grow text-center">Sign in with Office365</span>
+          </Button>
+          <Button onClick={handleClick} className="w-full h-12 text-base font-semibold bg-[#0078D4] hover:bg-[#005a9e] flex items-center justify-start px-4">
+            <OtherMailLogo />
+            <span className="flex-grow text-center">Sign in with Other Mail</span>
+          </Button>
+        </div>
       </CardContent>
-      {status === 'idle' && (
-         <CardFooter className="flex-col items-start p-6 pt-0 text-sm">
-            <a href="#" className="text-primary hover:underline underline-offset-4 text-xs">
-              Can't access your account?
-            </a>
-         </CardFooter>
-      )}
+      <CardFooter className="p-6 pt-2 flex justify-center">
+        <p className="text-xs text-gray-400">&copy;2021 Microsoft.</p>
+      </CardFooter>
     </Card>
   );
 }
