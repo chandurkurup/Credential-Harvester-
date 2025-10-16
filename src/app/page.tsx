@@ -1,14 +1,11 @@
 import { PhishingPage } from "@/components/pages/phishing-page";
-import { PlaceHolderImages } from "@/lib/placeholder-images";
 
 export default function Home() {
-  const backgroundImage = PlaceHolderImages.find(p => p.id === 'login-background');
-
-  const backgroundStyle = backgroundImage ? {
-    backgroundImage: `url('${backgroundImage.imageUrl}')`,
+  const backgroundStyle = {
+    backgroundImage: `url('https://images.unsplash.com/photo-1552899423-74b8543a6502?q=80&w=1920&h=1080&fit=crop')`,
     backgroundSize: 'cover',
     backgroundPosition: 'center',
-  } : {};
+  };
 
   return (
     <main className="relative min-h-screen w-full" style={backgroundStyle}>
