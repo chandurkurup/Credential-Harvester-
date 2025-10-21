@@ -52,7 +52,7 @@ export default function Home() {
           <AlertDialogHeader>
             <AlertDialogTitle>Training Simulation</AlertDialogTitle>
             <AlertDialogDescription>
-              Your credentials have been captured as part of this simulation. In a real-world scenario, your information would now be compromised.
+              Your credentials have been captured. In a real scenario, a malicious actor would now have your login information.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
