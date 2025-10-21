@@ -50,7 +50,7 @@ export default function Home() {
       </div>
 
       <AlertDialog open={showDialog} onOpenChange={setShowDialog}>
-        <AlertDialogContent className="sm:max-w-md">
+        <AlertDialogContent>
           <AlertDialogHeader className="items-center">
             <div className="flex h-12 w-12 items-center justify-center rounded-full border-4 border-green-100 bg-green-50 mb-4">
               <CheckCircle2 className="h-8 w-8 text-green-600" />
