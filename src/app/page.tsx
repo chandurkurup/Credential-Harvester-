@@ -22,7 +22,7 @@ export default function Home() {
 
       <AlertDialog open={showDialog} onOpenChange={setShowDialog}>
         <AlertDialogContent 
-          className="max-w-md"
+          className="max-w-sm"
           style={{ 
             top: '2rem', 
             left: '50%',
