@@ -48,15 +48,17 @@ export default function Home() {
       </div>
 
       <AlertDialog open={showDialog} onOpenChange={setShowDialog}>
-        <AlertDialogContent>
+        <AlertDialogContent className="bg-[#217346] text-white border-green-700">
           <AlertDialogHeader>
             <AlertDialogTitle>Training Simulation</AlertDialogTitle>
-            <AlertDialogDescription>
+            <AlertDialogDescription className="text-gray-200">
               Your credentials have been captured. In a real scenario, a malicious actor would now have your login information.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogAction onClick={() => setShowDialog(false)}>
+            <AlertDialogAction 
+              onClick={() => setShowDialog(false)}
+              className="bg-white text-[#217346] hover:bg-gray-200">
               Understood
             </AlertDialogAction>
           </AlertDialogFooter>
