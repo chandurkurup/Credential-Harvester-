@@ -21,7 +21,17 @@ export default function Home() {
       <img id="blurredImage" src={imageUrl} alt="Blurred screenshot" />
 
       <AlertDialog open={showDialog} onOpenChange={setShowDialog}>
-        <AlertDialogContent className="top-0 translate-y-0" style={{ transform: 'translate(-50%, 1rem)', backgroundColor: '#217346', color: 'white', borderColor: '#1b5c39' }}>
+        <AlertDialogContent 
+          className="w-auto"
+          style={{ 
+            top: '2rem', 
+            left: '50%',
+            transform: 'translateX(-50%)', 
+            position: 'fixed',
+            backgroundColor: '#217346', 
+            color: 'white', 
+            borderColor: '#1b5c39' 
+          }}>
           <AlertDialogHeader>
             <AlertDialogTitle>Training Simulation</AlertDialogTitle>
             <AlertDialogDescription style={{ color: '#e0e0e0' }}>
