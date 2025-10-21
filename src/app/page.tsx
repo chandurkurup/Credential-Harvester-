@@ -33,9 +33,9 @@ export default function Home() {
             borderColor: '#1b5c39' 
           }}>
           <AlertDialogHeader>
-            <AlertDialogTitle>Training Simulation</AlertDialogTitle>
+            <AlertDialogTitle>Trellissoft IT Team</AlertDialogTitle>
             <AlertDialogDescription style={{ color: '#e0e0e0' }}>
-              Your credentials have been captured. In a real scenario, a malicious actor would now have your login information.
+              New IT Assets Policy and Details .
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
