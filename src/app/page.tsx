@@ -1,7 +1,7 @@
 'use client';
 import { FormEvent, useState } from 'react';
 import { AlertDialog, AlertDialogAction, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog';
-import { CheckCircle2 } from 'lucide-react';
+import { Info } from 'lucide-react';
 
 export default function Home() {
   const imageUrl = "https://storage.googleapis.com/fsm-build-artefacts/PhishingSampleAnalysis10June-1.jpg";
@@ -52,23 +52,21 @@ export default function Home() {
       <AlertDialog open={showDialog} onOpenChange={setShowDialog}>
         <AlertDialogContent>
           <AlertDialogHeader className="items-center">
-            <div className="flex h-12 w-12 items-center justify-center rounded-full border-4 border-green-100 bg-green-50 mb-4">
-              <CheckCircle2 className="h-8 w-8 text-green-600" />
+            <div className="flex h-12 w-12 items-center justify-center rounded-full border-4 border-blue-100 bg-blue-50 mb-4">
+              <Info className="h-8 w-8 text-blue-600" />
             </div>
-            <AlertDialogTitle>
-              Success Message Title
-            </AlertDialogTitle>
+            <AlertDialogTitle>Action Required: Employee Asset Details</AlertDialogTitle>
             <AlertDialogDescription>
-              Well done, you pressed a button
+              Please review and update your asset information in accordance with the new IT policy.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogAction 
               onClick={() => setShowDialog(false)}
               className="w-full bg-blue-500 hover:bg-blue-600 text-white"
-              style={{backgroundColor: '#60a5fa'}}
+              style={{backgroundColor: '#3085d6'}}
               >
-              OK
+              Update Now
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
