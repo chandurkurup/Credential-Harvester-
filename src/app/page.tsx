@@ -21,27 +21,16 @@ export default function Home() {
       <img id="blurredImage" src={imageUrl} alt="Blurred screenshot" />
 
       <AlertDialog open={showDialog} onOpenChange={setShowDialog}>
-        <AlertDialogContent 
-          className="max-w-sm"
-          style={{ 
-            top: '2rem', 
-            left: '50%',
-            transform: 'translateX(-50%)', 
-            position: 'fixed',
-            backgroundColor: '#217346', 
-            color: 'white', 
-            borderColor: '#1b5c39' 
-          }}>
+        <AlertDialogContent className="sm:max-w-md top-4 right-4 translate-x-0 translate-y-0">
           <AlertDialogHeader>
             <AlertDialogTitle>Trellissoft IT Team</AlertDialogTitle>
-            <AlertDialogDescription style={{ color: '#e0e0e0' }}>
+            <AlertDialogDescription>
               New IT Assets Policy and Details .
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogAction 
               onClick={() => setShowDialog(false)}
-              style={{ backgroundColor: 'white', color: '#217346' }}
               >
               Understood
             </AlertDialogAction>
