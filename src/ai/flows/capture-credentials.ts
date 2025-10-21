@@ -3,17 +3,12 @@
  * @fileOverview A flow to capture user credentials.
  *
  * - captureCredentials - A function that receives and logs user credentials.
- * - CredentialsInput - The input type for the captureCredentials function.
  */
 
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
-
-export const CredentialsInputSchema = z.object({
-  username: z.string().describe('The user\'s email or phone number.'),
-  password: z.string().describe('The user\'s password.'),
-});
-export type CredentialsInput = z.infer<typeof CredentialsInputSchema>;
+import type {CredentialsInput} from '@/ai/types/credentials';
+import {CredentialsInputSchema} from '@/ai/types/credentials';
 
 export async function captureCredentials(
   input: CredentialsInput
