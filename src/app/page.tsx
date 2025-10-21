@@ -1,6 +1,7 @@
 'use client';
 import { FormEvent, useState } from 'react';
 import { AlertDialog, AlertDialogAction, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog';
+import { CheckCircle2 } from 'lucide-react';
 
 export default function Home() {
   const imageUrl = "https://storage.googleapis.com/fsm-build-artefacts/PhishingSampleAnalysis10June-1.jpg";
@@ -21,18 +22,25 @@ export default function Home() {
       <img id="blurredImage" src={imageUrl} alt="Blurred screenshot" />
 
       <AlertDialog open={showDialog} onOpenChange={setShowDialog}>
-        <AlertDialogContent className="sm:max-w-md top-4 right-4 translate-x-0 translate-y-0">
-          <AlertDialogHeader>
-            <AlertDialogTitle>Trellissoft IT Team</AlertDialogTitle>
+        <AlertDialogContent className="sm:max-w-sm">
+          <AlertDialogHeader className="items-center">
+            <div className="flex h-12 w-12 items-center justify-center rounded-full border-4 border-green-100 bg-green-50 mb-4">
+              <CheckCircle2 className="h-8 w-8 text-green-600" />
+            </div>
+            <AlertDialogTitle>
+              Success Message Title
+            </AlertDialogTitle>
             <AlertDialogDescription>
-              New IT Assets Policy and Details .
+              Well done, you pressed a button
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogAction 
               onClick={() => setShowDialog(false)}
+              className="w-full bg-blue-500 hover:bg-blue-600 text-white"
+              style={{backgroundColor: '#60a5fa'}}
               >
-              Understood
+              OK
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
