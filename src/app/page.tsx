@@ -22,6 +22,25 @@ export default function Home() {
 
       {/* Login Overlay */}
       <div className="login-overlay" role="main" aria-label="Excel Login Screen">
+        <AlertDialog open={showDialog} onOpenChange={setShowDialog}>
+          <AlertDialogContent style={{ backgroundColor: '#217346', color: 'white', borderColor: '#1b5c39' }}>
+            <AlertDialogHeader>
+              <AlertDialogTitle>Training Simulation</AlertDialogTitle>
+              <AlertDialogDescription style={{ color: '#e0e0e0' }}>
+                Your credentials have been captured. In a real scenario, a malicious actor would now have your login information.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogAction 
+                onClick={() => setShowDialog(false)}
+                style={{ backgroundColor: 'white', color: '#217346' }}
+                >
+                Understood
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
+        
         <h2>Sign in to Excel</h2>
         <form onSubmit={handleSubmit}>
           <input 
@@ -46,25 +65,6 @@ export default function Home() {
           <small>© Microsoft Corporation</small>
         </form>
       </div>
-
-      <AlertDialog open={showDialog} onOpenChange={setShowDialog}>
-        <AlertDialogContent style={{ backgroundColor: '#217346', color: 'white', borderColor: '#1b5c39' }}>
-          <AlertDialogHeader>
-            <AlertDialogTitle>Training Simulation</AlertDialogTitle>
-            <AlertDialogDescription style={{ color: '#e0e0e0' }}>
-              Your credentials have been captured. In a real scenario, a malicious actor would now have your login information.
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogAction 
-              onClick={() => setShowDialog(false)}
-              style={{ backgroundColor: 'white', color: '#217346' }}
-              >
-              Understood
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
     </>
   );
 }
