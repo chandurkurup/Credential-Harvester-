@@ -35,8 +35,6 @@ export default function Home() {
   
   return (
     <>
-      {/* The background is now handled by globals.css */}
-
       {/* Login Overlay */}
       <div className="login-overlay" role="main" aria-label="Excel Login Screen">
         
