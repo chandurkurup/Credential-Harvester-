@@ -14,13 +14,11 @@ import {
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
 import { ShieldX } from 'lucide-react';
-import { useRouter } from 'next/navigation';
 
 export default function Home() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [showAlert, setShowAlert] = useState(false);
-  const router = useRouter();
 
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
@@ -30,7 +28,7 @@ export default function Home() {
 
   return (
     <div className="flex items-center justify-center min-h-screen">
-      <Card className="w-[380px] bg-white/95 text-center shadow-2xl">
+      <Card className="w-[380px] bg-white/95 text-center shadow-2xl z-10">
         <CardHeader>
           <CardTitle className="text-2xl text-[#217346]">
             Sign in to Excel
