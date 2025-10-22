@@ -16,7 +16,7 @@ export default function RootLayout({
     <html lang="en" className="h-full">
       <body className="h-full">
         <FirebaseClientProvider>
-          <main className="h-full">{children}</main>
+          {children}
         </FirebaseClientProvider>
         <Toaster />
       </body>
