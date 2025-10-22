@@ -29,7 +29,7 @@ export default function Home() {
         color: "#333"
       }).then(() => {
         // Redirect to the asset update page after pressing the button
-        window.location.href = "employee-asset-update.html"; 
+        window.location.href = "/employee-asset-update.html"; 
       });
     }
   };
