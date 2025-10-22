@@ -1,5 +1,4 @@
 import type { Metadata } from 'next';
-import Script from 'next/script';
 import './globals.css';
 import { FirebaseClientProvider } from '@/firebase';
 
@@ -16,10 +15,7 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <FirebaseClientProvider>{children}</FirebaseClientProvider>
-        <Script src="https://cdn.jsdelivr.net/npm/sweetalert2@11" />
       </body>
     </html>
   );
 }
-
-    
