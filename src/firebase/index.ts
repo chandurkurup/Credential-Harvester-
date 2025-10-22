@@ -23,5 +23,3 @@ export function initializeFirebase() {
   }
   return { app, auth, firestore };
 }
-
-    
