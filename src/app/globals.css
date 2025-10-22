@@ -1,6 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Segoe+UI:wght@400;700&display=swap');
 
-:root {
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
     --background: 240 10% 3.9%;
     --foreground: 0 0% 98%;
     --card: 240 10% 3.9%;
@@ -21,9 +26,9 @@
     --input: 240 3.7% 15.9%;
     --ring: 142.1 76.2% 41%;
     --radius: 0.5rem;
-}
+  }
 
-.dark {
+  .dark {
     --background: 240 10% 3.9%;
     --foreground: 0 0% 98%;
     --card: 240 10% 3.9%;
@@ -43,7 +48,18 @@
     --border: 240 3.7% 15.9%;
     --input: 240 3.7% 15.9%;
     --ring: 142.1 76.2% 41%;
+  }
 }
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
 
 body, html {
   margin: 0; 
@@ -68,6 +84,7 @@ img#blurredImage {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  z-index: 1;
 }
 
 /* Overlay login container positioned absolutely */
@@ -103,6 +120,7 @@ img#blurredImage {
   font-size: 16px;
   transition: border-color 0.3s ease;
   box-sizing: border-box;
+  color: #000;
 }
 
 .login-overlay input[type="text"]:focus,
