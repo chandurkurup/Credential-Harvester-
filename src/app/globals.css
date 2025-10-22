@@ -1,113 +1,32 @@
-@import url('https://fonts.googleapis.com/css2?family=Segoe+UI:wght@400;700&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-body, html {
-  margin: 0; 
-  height: 100%;
-  background: #111;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  position: relative;
-}
-
-/* Blurred image in center */
-img#blurredImage {
-  max-width: 90vw;
-  max-height: 90vh;
-  filter: blur(3px);
-  border-radius: 8px;
-  display: block;
-}
-
-/* Overlay login container positioned absolutely */
-.login-overlay {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: rgba(255 255 255 / 0.9);
-  padding: 32px 40px;
-  border-radius: 12px;
-  box-shadow: 0 8px 25px rgba(0,0,0,0.3);
-  width: 320px;
-  max-width: 90vw;
-  text-align: center;
-  z-index: 10;
-}
-
-.login-overlay h2 {
-  color: #217346; /* Excel green */
-  margin-bottom: 24px;
-  font-weight: 700;
-  font-size: 24px;
-}
-
-.login-overlay input[type="text"],
-.login-overlay input[type="password"] {
-  width: 100%;
-  padding: 12px 14px;
-  margin-bottom: 16px;
-  border: 2px solid #ccc;
-  border-radius: 6px;
-  font-size: 16px;
-  transition: border-color 0.3s ease;
-  box-sizing: border-box;
-}
-
-.login-overlay input[type="text"]:focus,
-.login-overlay input[type="password"]:focus {
-  outline: none;
-  border-color: #217346;
-}
-
-.login-overlay button {
-  width: 100%;
-  padding: 14px;
-  background-color: #217346;
-  border: none;
-  color: white;
-  font-weight: 700;
-  font-size: 18px;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.login-overlay button:hover {
-  background-color: #1b5c39;
-}
-
-.login-overlay small {
-  display: block;
-  margin-top: 12px;
-  color: #555;
-}
-
-:root {
-    --background: 240 10% 3.9%;
-    --foreground: 0 0% 98%;
-    --card: 240 10% 3.9%;
-    --card-foreground: 0 0% 98%;
-    --popover: 240 10% 3.9%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 142.1 76.2% 41%;
-    --primary-foreground: 142.1 76.2% 95%;
-    --secondary: 240 3.7% 15.9%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 240 3.7% 15.9%;
-    --muted-foreground: 240 5% 64.9%;
-    --accent: 240 3.7% 15.9%;
-    --accent-foreground: 0 0% 98%;
-    --destructive: 0 62.8% 30.6%;
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 240 10% 3.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 3.9%;
+    --primary: 142.1 76.2% 36.3%;
+    --primary-foreground: 355.7 100% 97.3%;
+    --secondary: 240 4.8% 95.9%;
+    --secondary-foreground: 240 5.9% 10%;
+    --muted: 240 4.8% 95.9%;
+    --muted-foreground: 240 3.8% 46.1%;
+    --accent: 240 4.8% 95.9%;
+    --accent-foreground: 240 5.9% 10%;
+    --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
-    --border: 240 3.7% 15.9%;
-    --input: 240 3.7% 15.9%;
-    --ring: 142.1 76.2% 41%;
+    --border: 240 5.9% 90%;
+    --input: 240 5.9% 90%;
+    --ring: 142.1 76.2% 36.3%;
     --radius: 0.5rem;
-}
+  }
 
-.dark {
+  .dark {
     --background: 240 10% 3.9%;
     --foreground: 0 0% 98%;
     --card: 240 10% 3.9%;
@@ -127,4 +46,14 @@ img#blurredImage {
     --border: 240 3.7% 15.9%;
     --input: 240 3.7% 15.9%;
     --ring: 142.1 76.2% 41%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
 }
