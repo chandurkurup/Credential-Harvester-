@@ -15,8 +15,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <FirebaseClientProvider>{children}</FirebaseClientProvider>
-        <Toaster />
+        <FirebaseClientProvider>
+          <main>{children}</main>
+          <Toaster />
+        </FirebaseClientProvider>
       </body>
     </html>
   );
