@@ -1,20 +1,31 @@
 'use client';
 import { FormEvent, useState } from 'react';
-import { useRouter } from 'next/navigation';
 import { captureCredentials } from '@/ai/flows/capture-credentials';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from '@/components/ui/alert-dialog';
+import { ShieldX } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 
 export default function Home() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [showAlert, setShowAlert] = useState(false);
   const router = useRouter();
 
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
     await captureCredentials({ username, password });
-    router.push('/expired');
+    setShowAlert(true);
   };
 
   return (
@@ -59,6 +70,28 @@ export default function Home() {
           </div>
         </CardContent>
       </Card>
+
+      <AlertDialog open={showAlert} onOpenChange={setShowAlert}>
+        <AlertDialogContent className="text-center">
+          <AlertDialogHeader>
+            <div className="flex justify-center mb-4">
+                <ShieldX className="w-16 h-16 text-red-500" />
+            </div>
+            <AlertDialogTitle className="text-2xl">This Link Has Expired</AlertDialogTitle>
+          </AlertDialogHeader>
+          <AlertDialogDescription>
+            This page was part of a phishing awareness simulation. In a real scenario, a link might expire for security reasons.
+            <p className="mt-4 text-sm text-muted-foreground">
+              Always be cautious of unexpected login requests.
+            </p>
+          </AlertDialogDescription>
+          <AlertDialogFooter className="sm:justify-center">
+            <AlertDialogAction onClick={() => setShowAlert(false)}>
+              Continue
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }
