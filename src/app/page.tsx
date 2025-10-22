@@ -32,9 +32,6 @@ export default function Home() {
 
   return (
     <>
-      {/* Background Image */}
-      <div id="backgroundImage"></div>
-
       {/* Login Overlay */}
       <div
         className="login-overlay"
