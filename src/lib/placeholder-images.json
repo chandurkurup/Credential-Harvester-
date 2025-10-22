@@ -1,0 +1,10 @@
+{
+  "placeholderImages": [
+    {
+      "id": "login-background",
+      "description": "An image of an Excel spreadsheet.",
+      "imageUrl": "https://images.unsplash.com/photo-1552899423-74b8543a6502?q=80&w=1920&h=1080&fit=crop",
+      "imageHint": "spreadsheet grid"
+    }
+  ]
+}
