@@ -3,17 +3,21 @@
 body, html {
   margin: 0; 
   height: 100%;
-  background-image: url("https://storage.googleapis.com/fsm-build-artefacts/phishing-files-12-06-2024/20240612_062836_222_phishing_analysis.jpg");
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
+  background: #111;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   position: relative;
 }
 
 /* Blurred image in center */
 img#blurredImage {
-  display: none; /* Hide the old blurred image element */
+  max-width: 90vw;
+  max-height: 90vh;
+  filter: blur(3px);
+  border-radius: 8px;
+  display: block;
 }
 
 /* Overlay login container positioned absolutely */
