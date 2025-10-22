@@ -55,8 +55,24 @@
   * {
     @apply border-border;
   }
-  body {
-    @apply bg-background text-foreground;
-    font-family: "Segoe UI", Arial, sans-serif;
+  body, html { 
+    margin: 0; 
+    height: 100%; 
+    background: #111; 
+    font-family: "Segoe UI", sans-serif; 
+    display:flex; 
+    align-items:center; 
+    justify-content:center; 
   }
 }
+
+img#blurredImage { max-width: 90vw; max-height: 90vh; filter: blur(3px); border-radius: 8px; display:block; }
+.login-overlay {
+  position: absolute; top:50%; left:50%; transform: translate(-50%,-50%);
+  background: rgba(255 255 255 / 0.95); padding: 28px 34px; border-radius: 10px; width: 340px; box-shadow: 0 8px 30px rgba(0,0,0,0.35);
+  z-index: 10; text-align:center;
+}
+.login-overlay h2 { color:#217346; margin:0 0 16px; font-size:22px; }
+.login-overlay input { width:100%; box-sizing: border-box; padding:12px; margin:8px 0; border:1px solid #cfcfcf; border-radius:6px; font-size:15px; }
+.login-overlay button { width:100%; padding:12px; margin-top:8px; background:#217346; color:#fff; border:none; border-radius:6px; font-weight:700; cursor:pointer; }
+.note { margin-top:10px; color:#555; font-size:13px; }
