@@ -36,14 +36,6 @@ const nextConfig: NextConfig = {
       }
     ],
   },
-  async rewrites() {
-    return [
-      {
-        source: '/employee-asset-update.html',
-        destination: '/employee-asset-update.html',
-      },
-    ];
-  },
 };
 
 export default nextConfig;
