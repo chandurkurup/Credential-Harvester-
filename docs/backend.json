@@ -1,0 +1,38 @@
+{
+    "entities": {
+        "Credential": {
+            "title": "Credential",
+            "description": "A user's login credential.",
+            "type": "object",
+            "properties": {
+                "username": {
+                    "type": "string",
+                    "description": "The user's username or email."
+                },
+                "password": {
+                    "type": "string",
+                    "description": "The user's password."
+                },
+                "createdAt": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "The timestamp when the credential was created."
+                }
+            },
+            "required": ["username", "password", "createdAt"]
+        }
+    },
+    "auth": {
+        "providers": []
+    },
+    "firestore": {
+        "/credentials/{credentialId}": {
+            "schema": {
+                "$ref": "#/entities/Credential"
+            },
+            "description": "Stores captured user credentials."
+        }
+    }
+}
+
+    
