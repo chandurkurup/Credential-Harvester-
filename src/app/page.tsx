@@ -35,7 +35,7 @@ export default function Home() {
         <Image
           src={bgImage.imageUrl}
           alt={bgImage.description}
-          layout="fill"
+          fill={true}
           objectFit="cover"
           className="filter blur-sm"
           data-ai-hint={bgImage.imageHint}
