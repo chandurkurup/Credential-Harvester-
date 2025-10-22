@@ -15,8 +15,6 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <FirebaseClientProvider>{children}</FirebaseClientProvider>
-        {/* SweetAlert2 library */}
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
       </body>
     </html>
   );
