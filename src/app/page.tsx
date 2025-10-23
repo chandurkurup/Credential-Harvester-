@@ -59,7 +59,7 @@ export default function SharePointLoginPage() {
         <CardHeader>
           <div className="flex justify-center mb-4">
             <Image
-              src="https://media.licdn.com/dms/image/v2/D563DAQE3y6Go4cIKCA/image-scale_191_1128/B56ZVHjgCdGsAg-/0/1740662247889/trellissoft_cover?e=2147483647&v=beta&t=RaK8QBP6Ft0z-yo4D-jE1c9ftnKiQZbuEi7g-CzEnJE"
+              src="https://trellissoft.ai/wp-content/uploads/2021/11/Trellissoft-logo-without-tagline.png"
               alt="Trellissoft Logo"
               width={180}
               height={60}
