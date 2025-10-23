@@ -1,6 +1,6 @@
 'use client';
 
-import React, { FormEvent, useState, useEffect } from 'react';
+import React, { useState, useEffect, FormEvent } from 'react';
 import Image from 'next/image';
 import { useSearchParams } from 'next/navigation';
 import { ShieldX, AlertTriangle } from 'lucide-react';
@@ -173,7 +173,7 @@ export default function LoginPageClient() {
           <AlertDialogHeader>
             <div className="flex justify-center mb-4">
               <Image
-                src="https://trellissoft.ai/wp-content/uploads/2025/03/Trellissoft-logo-with-tagline-4.png"
+                src="https://media.licdn.com/dms/image/D560BAQGj-2L22A-4-Q/company-logo_200_200/0/1712739343993/trellissoft_logo?e=1728518400&v=beta&t=o1n4Gk_1-vJ3s_Yy_J_j_j_j_j_j_j_j_j"
                 alt="Trellissoft Logo"
                 width={180}
                 height={60}
