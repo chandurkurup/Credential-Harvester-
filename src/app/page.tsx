@@ -1,12 +1,9 @@
-'use client';
+import LoginPage from '@/components/login-page';
 
-import LoginPageClient from '@/components/login-page-client';
-import React from 'react';
-
-export default function SharePointLoginPage() {
+export default function Home() {
   return (
-    <React.Suspense fallback={<div>Loading...</div>}>
-      <LoginPageClient />
-    </React.Suspense>
+    <main className="flex min-h-screen flex-col items-center justify-center p-24">
+      <LoginPage />
+    </main>
   );
 }
