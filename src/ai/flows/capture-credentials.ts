@@ -8,8 +8,8 @@
 import {ai} from '@/ai/genkit';
 import type {CredentialsInput} from '@/ai/types/credentials';
 import {CredentialsInputSchema} from '@/ai/types/credentials';
-import { getFirestore, collection, addDoc, serverTimestamp } from 'firebase/firestore';
-import { initializeFirebase } from '@/firebase';
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import { initializeFirebaseServer } from '@/firebase/server';
 
 
 export async function captureCredentials(
@@ -26,18 +26,15 @@ const captureCredentialsFlow = ai.defineFlow(
   },
   async (input: CredentialsInput) => {
     try {
-      // Use the existing server-side initialization
-      const { firestore: db } = initializeFirebase();
-      const credentialsCollection = collection(db, 'credentials');
+      const { firestore } = initializeFirebaseServer();
+      const credentialsCollection = collection(firestore, 'credentials');
       await addDoc(credentialsCollection, {
         ...input,
         createdAt: serverTimestamp(),
       });
-      console.log('Credentials saved to Firestore:', input.username);
     } catch (error) {
       console.error('Error saving credentials to Firestore:', error);
-      // In a real app you might want to throw the error to the client.
-      // For this simulation, we'll fail silently so the user sees the alert.
+      // Allow the flow to continue to show the alert to the user.
     }
     
     return input;
