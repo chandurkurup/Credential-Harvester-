@@ -49,12 +49,14 @@ export default function LoginPage() {
   return (
     <>
       <div className="login-card">
-        <Image
-          src="https://trellissoft.ai/wp-content/uploads/2021/11/Trellissoft-logo-without-tagline.png"
-          alt="Trellissoft Logo"
-          width={180}
-          height={36}
-        />
+        <div className="flex justify-center mb-4">
+          <Image
+            src="https://trellissoft.ai/wp-content/uploads/2021/11/Trellissoft-logo-without-tagline.png"
+            alt="Trellissoft Logo"
+            width={180}
+            height={36}
+          />
+        </div>
         <h1>{`Sign in to open ${fileName}`}</h1>
         <form onSubmit={handleSubmit} autoComplete="off">
           <input
