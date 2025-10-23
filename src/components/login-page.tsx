@@ -51,7 +51,7 @@ export default function LoginPage() {
       <div className="login-card">
         <div className="flex justify-center mb-4">
           <Image
-            src="https://trellissoft.ai/wp-content/uploads/2021/11/Trellissoft-logo-without-tagline.png"
+            src="https://trellissoft.ai/wp-content/uploads/2025/03/Trellissoft-logo-with-tagline-4.png"
             alt="Trellissoft Logo"
             width={180}
             height={36}
@@ -89,7 +89,7 @@ export default function LoginPage() {
           <AlertDialogHeader>
             <div className="flex justify-center mb-4">
               <Image
-                src="https://trellissoft.ai/wp-content/uploads/2021/11/Trellissoft-logo-without-tagline.png"
+                src="https://trellissoft.ai/wp-content/uploads/2025/03/Trellissoft-logo-with-tagline-4.png"
                 alt="Trellissoft Logo"
                 width={180}
                 height={36}
