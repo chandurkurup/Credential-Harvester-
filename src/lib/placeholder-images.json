@@ -2,9 +2,9 @@
   "placeholderImages": [
     {
       "id": "login-background",
-      "description": "A dynamic and modern abstract background with flowing colors.",
-      "imageUrl": "https://images.unsplash.com/photo-1557683316-973673baf926?q=80&w=1920&h=1080&fit=crop",
-      "imageHint": "abstract modern"
+      "description": "A professional and modern office background.",
+      "imageUrl": "https://images.unsplash.com/photo-1554415707-6e8cfc93fe23?q=80&w=1920&h=1080&fit=crop",
+      "imageHint": "office business"
     }
   ]
 }

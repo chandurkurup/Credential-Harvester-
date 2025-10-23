@@ -55,7 +55,7 @@ export default function SharePointLoginPage() {
       )}
 
       {/* Login Card */}
-      <Card className="w-[380px] bg-white/95 backdrop-blur-lg border border-white/30 text-center shadow-2xl z-10">
+      <Card className="w-[380px] bg-white text-center shadow-2xl z-10">
         <CardHeader>
           <div className="flex justify-center mb-4">
             <Image
