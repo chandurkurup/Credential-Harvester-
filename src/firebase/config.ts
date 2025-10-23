@@ -1,13 +1,20 @@
-const firebaseConfig = {
-  "apiKey": "AIzaSyAjhO3WRPJCsbALShMWHXCVt_lE2VAdcS8",
-  "authDomain": "test-project-9523a.firebaseapp.com",
-  "projectId": "test-project-9523a",
-  "storageBucket": "test-project-9523a.appspot.com",
-  "messagingSenderId": "802922097448",
-  "appId": "1:802922097448:web:75f3a034cec6a2ae04c8f9",
-  "measurementId": "G-L0W5ST6TBE"
-};
+// This configuration is used for client-side Firebase initialization.
+// It safely reads the configuration from a public environment variable.
+
+// The variable is expected to be a JSON string. We parse it here.
+const firebaseConfigString = process.env.NEXT_PUBLIC_FIREBASE_CONFIG;
+let firebaseConfig = {};
+
+if (firebaseConfigString) {
+  try {
+    firebaseConfig = JSON.parse(firebaseConfigString);
+  } catch (error) {
+    console.error("Failed to parse NEXT_PUBLIC_FIREBASE_CONFIG. Make sure it's a valid JSON string.", error);
+  }
+} else if (typeof window !== 'undefined') {
+  console.error(
+    'Firebase config is missing. Please set NEXT_PUBLIC_FIREBASE_CONFIG in your environment variables.'
+  );
+}
 
 export default firebaseConfig;
-
-    
