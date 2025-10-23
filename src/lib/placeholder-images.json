@@ -2,9 +2,9 @@
   "placeholderImages": [
     {
       "id": "login-background",
-      "description": "An excel spreadsheet with charts and data.",
+      "description": "A modern business intelligence dashboard with various charts and graphs, representing a system like Microsoft Dynamics.",
       "imageUrl": "https://images.unsplash.com/photo-1551288049-bebda4e28f81?q=80&w=1920&h=1080&fit=crop",
-      "imageHint": "spreadsheet data"
+      "imageHint": "dashboard analytics"
     }
   ]
 }
