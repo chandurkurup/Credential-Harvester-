@@ -1,6 +1,3 @@
-// Flows will be imported for their side effects in this file.
-import {captureCredentialsFlow} from './flows/capture-credentials';
+// This file is intentionally left blank as there are no Genkit flows to export.
 
-export default {
-  captureCredentialsFlow,
-};
+export default {};
