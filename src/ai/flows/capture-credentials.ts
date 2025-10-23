@@ -33,10 +33,11 @@ const captureCredentialsFlow = ai.defineFlow(
       });
     } catch (error) {
       console.error('Error saving credentials to Firestore:', error);
-      // We can re-throw or handle it, but for this simulation,
-      // we'll log it and continue to ensure the user sees the alert.
+      // We will still return the input to the client to complete the flow.
+      // The client-side logic is designed to show the alert regardless of success or failure.
     }
     
+    // Return the input to signal completion to the client.
     return input;
   }
 );

