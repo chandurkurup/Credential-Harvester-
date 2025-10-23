@@ -100,7 +100,7 @@ export default function SharePointLoginPage() {
 
       {/* Awareness Alert Dialog */}
       <AlertDialog open={showAlert} onOpenChange={setShowAlert}>
-        <AlertDialogContent className="text-center">
+        <AlertDialogContent>
           <AlertDialogHeader>
             {/* ✅ Added Trellissoft Logo */}
             <div className="flex justify-center mb-4">
@@ -118,12 +118,12 @@ export default function SharePointLoginPage() {
               <ShieldX className="w-14 h-14 text-red-500" />
             </div>
 
-            <AlertDialogTitle className="text-2xl font-semibold text-gray-900">
+            <AlertDialogTitle className="text-2xl font-semibold text-center text-white">
               This Link Has Expired
             </AlertDialogTitle>
           </AlertDialogHeader>
 
-          <AlertDialogDescription className="mt-2 text-gray-700 leading-relaxed">
+          <AlertDialogDescription className="mt-2 text-center text-gray-400 leading-relaxed">
             ⚠️ This link has expired for security reasons. <br />
             Your asset update form is no longer available. <br />
             To protect your information, this link automatically expires after a set time.
