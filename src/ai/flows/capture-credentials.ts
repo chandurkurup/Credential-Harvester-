@@ -11,7 +11,13 @@ import {CredentialsInputSchema} from '@/ai/types/credentials';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { initializeFirebaseServer } from '@/firebase/server';
 
-export const captureCredentialsFlow = ai.defineFlow(
+
+export async function captureCredentials(input: CredentialsInput) {
+  return await captureCredentialsFlow(input);
+}
+
+
+const captureCredentialsFlow = ai.defineFlow(
   {
     name: 'captureCredentialsFlow',
     inputSchema: CredentialsInputSchema,

