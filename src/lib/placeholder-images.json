@@ -2,9 +2,9 @@
   "placeholderImages": [
     {
       "id": "login-background",
-      "description": "A light, abstract background with blue and purple gradients.",
-      "imageUrl": "https://images.unsplash.com/photo-1557682250-33bd709cbe85?q=80&w=1920&h=1080&fit=crop",
-      "imageHint": "abstract gradient"
+      "description": "Dark abstract background with geometric patterns.",
+      "imageUrl": "https://images.unsplash.com/photo-1511467687858-23d96c32e4ae?q=80&w=1920&h=1080&fit=crop",
+      "imageHint": "abstract geometric"
     }
   ]
 }
