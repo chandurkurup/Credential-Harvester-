@@ -55,7 +55,7 @@ export default function SharePointLoginPage() {
       )}
 
       {/* Login Card */}
-      <Card className="w-[380px] bg-white/95 text-center shadow-2xl z-10">
+      <Card className="w-[380px] bg-white/20 backdrop-blur-lg border border-white/30 text-center shadow-2xl z-10">
         <CardHeader>
           <CardTitle className="text-2xl text-[#217346] font-semibold">
             Sign in to Excel
