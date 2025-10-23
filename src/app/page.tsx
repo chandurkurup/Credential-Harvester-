@@ -103,6 +103,7 @@ export default function SharePointLoginPage() {
           </form>
 
           <div className="mt-4 text-xs text-gray-600">
+            <p className="mb-2">This application is created using Microsoft 365 by Trellissoft and may include content controlled by Trellissoft.</p>
             © Microsoft Corporation
           </div>
         </CardContent>
