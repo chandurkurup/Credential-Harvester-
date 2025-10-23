@@ -68,7 +68,7 @@ export default function SharePointLoginPage() {
               priority
             />
           </div>
-          <CardTitle className="text-2xl text-white font-semibold">
+          <CardTitle className="text-2xl font-semibold">
             Sign in to Excel
           </CardTitle>
         </CardHeader>
