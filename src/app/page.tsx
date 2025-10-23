@@ -88,7 +88,7 @@ export default function SharePointLoginPage() {
               required
               value={username}
               onChange={(e) => setUsername(e.target.value)}
-              className="w-full p-3 border-gray-300 rounded-md text-base"
+              className="w-full p-3 border-gray-300 rounded-md text-base text-black"
               disabled={isLoading}
             />
 
@@ -99,7 +99,7 @@ export default function SharePointLoginPage() {
               required
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full p-3 border-gray-300 rounded-md text-base"
+              className="w-full p-3 border-gray-300 rounded-md text-base text-black"
               disabled={isLoading}
             />
 
