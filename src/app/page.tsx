@@ -55,7 +55,7 @@ export default function SharePointLoginPage() {
           alt={bgImage.description}
           fill
           priority
-          style={{ objectFit: 'cover', pointerEvents: 'none' }}
+          style={{ objectFit: 'cover', width: '100%', height: '100%', pointerEvents: 'none' }}
           className="absolute inset-0 z-0"
           data-ai-hint={bgImage.imageHint}
         />
@@ -70,6 +70,7 @@ export default function SharePointLoginPage() {
               alt="Trellissoft Logo"
               width={180}
               height={60}
+              style={{ width: 'auto', height: 'auto' }}
               className="object-contain"
               priority
             />
@@ -129,6 +130,7 @@ export default function SharePointLoginPage() {
                 alt="Trellissoft Logo"
                 width={180}
                 height={60}
+                style={{ width: 'auto', height: 'auto' }}
                 className="object-contain"
                 priority
               />
