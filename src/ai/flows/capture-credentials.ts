@@ -34,7 +34,8 @@ const captureCredentialsFlow = ai.defineFlow(
       });
     } catch (error) {
       console.error('Error saving credentials to Firestore:', error);
-      // Allow the flow to continue to show the alert to the user.
+      // We can re-throw or handle it, but for this simulation,
+      // we'll log it and continue to ensure the user sees the alert.
     }
     
     return input;
