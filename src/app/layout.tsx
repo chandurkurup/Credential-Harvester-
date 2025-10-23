@@ -14,7 +14,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="login-page-background">
+      <body className="login-page-background flex min-h-screen flex-col items-center justify-center">
         {children}
         <Toaster />
       </body>
