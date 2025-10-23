@@ -55,8 +55,18 @@ export default function SharePointLoginPage() {
       )}
 
       {/* Login Card */}
-      <Card className="w-[380px] bg-white/20 backdrop-blur-lg border border-white/30 text-center shadow-2xl z-10">
+      <Card className="w-[380px] bg-white/95 backdrop-blur-lg border border-white/30 text-center shadow-2xl z-10">
         <CardHeader>
+          <div className="flex justify-center mb-4">
+            <Image
+              src="https://trellissoft.ai/wp-content/uploads/2025/03/Trellissoft-logo-with-tagline-4.png"
+              alt="Trellissoft Logo"
+              width={180}
+              height={60}
+              className="object-contain"
+              priority
+            />
+          </div>
           <CardTitle className="text-2xl text-[#217346] font-semibold">
             Sign in to Excel
           </CardTitle>
