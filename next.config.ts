@@ -48,6 +48,9 @@ const nextConfig: NextConfig = {
       }
     ],
   },
+  env: {
+    FIREBASE_SERVICE_ACCOUNT: process.env.FIREBASE_SERVICE_ACCOUNT,
+  }
 };
 
 export default nextConfig;
