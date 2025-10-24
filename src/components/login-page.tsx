@@ -106,9 +106,9 @@ export default function LoginPage({ fileName }: { fileName: string }) {
             To protect your information, this link automatically expires after a set time.
             <br /><br />
             Please request a new secure link if you still need to update your details.
-            <p className="mt-4 text-sm text-gray-500">
+            <span className="block mt-4 text-sm text-gray-500">
               Always be cautious of unexpected login requests.
-            </p>
+            </span>
           </AlertDialogDescription>
           <AlertDialogFooter className="sm:justify-center mt-4">
             <AlertDialogAction
