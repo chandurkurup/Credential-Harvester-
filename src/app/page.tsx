@@ -2,13 +2,14 @@ import LoginPage from '@/components/login-page';
 
 export const dynamic = 'force-dynamic';
 
-export default function Home({
+export default async function Home({
   searchParams,
 }: {
-  searchParams: { [key: string]: string | string[] | undefined };
+  // Next.js 15: searchParams is a Promise
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
 }) {
-  const fileName =
-    typeof searchParams.file === 'string' ? searchParams.file : 'Excel';
+  const sp = await searchParams; // ✅ await the promise
+  const fileName = typeof sp.file === 'string' ? sp.file : 'Excel';
 
   return <LoginPage fileName={fileName} />;
 }

@@ -1,22 +1,41 @@
-// This file is designated for server-side use only.
-import 'server-only';
+import { cert, getApps, initializeApp } from "firebase-admin/app";
+import { getFirestore } from "firebase-admin/firestore";
 
-// This function securely accesses and parses the service account credentials.
-// It is designed to be called only from server-side code (like Server Actions).
 export function getServiceAccount() {
-  const serviceAccountString = process.env.FIREBASE_SERVICE_ACCOUNT;
+  if (process.env.FIREBASE_SERVICE_ACCOUNT_BASE64) {
+    const json = Buffer.from(
+      process.env.FIREBASE_SERVICE_ACCOUNT_BASE64,
+      "base64"
+    ).toString("utf8");
+    return JSON.parse(json);
+  }
+  if (process.env.FIREBASE_SERVICE_ACCOUNT) {
+    return JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT);
+  }
+  throw new Error("Firebase service account credentials are not available.");
+}
 
-  if (!serviceAccountString) {
-    console.error('getServiceAccount: FIREBASE_SERVICE_ACCOUNT environment variable is not set.');
-    return null;
+// NEW: Use a function to lazily get the app instance
+
+export function getFirebaseAdminApp(): App {
+  // Check if an app is already initialized
+  if (getApps().length > 0) {
+    return getApps()[0];
   }
 
+  // If not, initialize it
   try {
-    // Parse the JSON string from the environment variable.
-    const serviceAccount = JSON.parse(serviceAccountString);
-    return serviceAccount;
-  } catch (error: any) {
-    console.error('getServiceAccount: Error parsing FIREBASE_SERVICE_ACCOUNT. Make sure it is a valid JSON object in your .env file.', error.message);
-    return null;
+    return initializeApp({ credential: cert(getServiceAccount()) });
+  } catch (error) {
+    // This is a safety catch for potential re-initialization errors
+    // but the getApps() check above should prevent it.
+    console.error("Error initializing Firebase Admin SDK:", error);
+    // Re-throw if it's a critical, non-initialization error
+    throw error;
   }
+}
+
+// NEW: Export a function to lazily get the Firestore DB
+export function getDb() {
+    return getFirestore(getFirebaseAdminApp());
 }
