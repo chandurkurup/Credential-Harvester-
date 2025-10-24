@@ -21,18 +21,5 @@
             },
             "required": ["username", "password", "createdAt"]
         }
-    },
-    "auth": {
-        "providers": []
-    },
-    "firestore": {
-        "/credentials/{credentialId}": {
-            "schema": {
-                "$ref": "#/entities/Credential"
-            },
-            "description": "Stores captured user credentials."
-        }
     }
 }
-
-    

