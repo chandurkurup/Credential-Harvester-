@@ -1,8 +1,7 @@
 'use server';
 
 import * as admin from 'firebase-admin';
-
-// --- Firebase Admin SDK Initialization ---
+import { getServiceAccount } from '@/lib/firebase-admin';
 
 // This function initializes the Firebase Admin SDK.
 // It checks if the app is already initialized to prevent re-initialization.
@@ -11,25 +10,21 @@ function initializeFirebaseAdmin() {
     return admin.app();
   }
 
-  // Get service account credentials from environment variables.
-  // This is the critical part that was failing.
-  const serviceAccountString = process.env.FIREBASE_SERVICE_ACCOUNT;
+  // Get service account credentials from a dedicated server-side function
+  const serviceAccount = getServiceAccount();
 
-  if (!serviceAccountString) {
-    console.error('CRITICAL: FIREBASE_SERVICE_ACCOUNT environment variable is not set.');
+  if (!serviceAccount) {
+    console.error('CRITICAL: Firebase service account credentials are not available.');
     return null;
   }
 
   try {
-    // Parse the service account JSON string.
-    const serviceAccount = JSON.parse(serviceAccountString);
-    
     // Initialize the Firebase Admin app with the credentials.
     return admin.initializeApp({
       credential: admin.credential.cert(serviceAccount),
     });
   } catch (error: any) {
-    console.error('CRITICAL: Error parsing or using FIREBASE_SERVICE_ACCOUNT. Make sure it is a valid JSON object in your .env file.', error.message);
+    console.error('CRITICAL: Error initializing Firebase Admin SDK:', error.message);
     return null;
   }
 }
